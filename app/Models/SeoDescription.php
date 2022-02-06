@@ -6,11 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Post extends Model
+class SeoDescription extends Model
 {
     use HasFactory;
-    use SoftDeletes;
 
-    protected $table = 'posts';
+    protected $table = 'seo_descriptions';
     protected $guarded = false;
 }

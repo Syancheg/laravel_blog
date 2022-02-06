@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}">
     <!-- summernote -->
     <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.min.css') }}">
+
     <link rel="stylesheet" href="{{ asset('styles/additional.css') }}">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -248,5 +249,19 @@
 <script src="{{ asset('dist/js/demo.js') }}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{ asset('dist/js/pages/dashboard.js') }}"></script>
+<!-- Summernote -->
+<script src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}"></script>
+<!-- bs-custom-file-input -->
+<script src="{{ asset('plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
+<script>
+    $(() => {
+        $('#summernote').summernote({
+            lang:'ru-Ru',
+            height: 300,
+        });
+
+        bsCustomFileInput.init();
+    })
+</script>
 </body>
 </html>

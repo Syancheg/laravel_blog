@@ -45,7 +45,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{ route('admin.post.index') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Посты</p>
                             </a>
@@ -57,7 +57,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{ route('admin.tag.index') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Теги</p>
                             </a>
