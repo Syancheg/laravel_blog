@@ -1,0 +1,10 @@
+.required:after{
+    content: '*';
+    color: red;
+    width: 5px;
+    height: 5px;
+}
+.action-button-block {
+    display: flex;
+    gap: 10px;
+}
