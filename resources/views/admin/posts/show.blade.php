@@ -32,7 +32,7 @@
                 </tr>
                 <tr>
                     <td>Категория</td>
-                    <td>{{ $post->category_id }}</td>
+                    <td>{{ $post->category->title }}</td>
                 </tr>
                 <tr>
                     <td>Просмотры</td>

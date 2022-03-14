@@ -17,8 +17,8 @@ class CreatePostsTable extends Migration
             $table->id();
             $table->string('title');
             $table->text('content');
-            $table->text('main_image')->nullable();
-            $table->integer('views');
+            $table->unsignedBigInteger('main_image')->nullable();
+            $table->unsignedBigInteger('views');
             $table->unsignedBigInteger('category_id')->nullable();
 
             $table->softDeletes();

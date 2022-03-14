@@ -21,6 +21,7 @@
                         <thead>
                         <tr>
                             <th style="width: 5%">ID</th>
+                            <th style="width: 5%">Фото</th>
                             <th style="width: 60%">Наименование</th>
                             <th style="width: 5%">Категория</th>
                             <th style="width: 5%">Просмотры</th>
@@ -30,19 +31,35 @@
                         </thead>
                         <tbody>
                         @foreach($posts as $post)
+
                             <tr>
                                 <td>{{ $post->id }}</td>
-                                <td>{{ $post->title }}</td>
-                                <td>{{ $post->categpry_id }}</td>
                                 <td>
-                                    <span class="badge bg-warning">{{ $post->views }}</span>
+                                    @if($post->mainImage)
+                                        <div class="post-list-image">
+                                            <img src="{{ Storage::url($post->mainImage->path_cache) }}">
+                                        </div>
+                                    @endif
                                 </td>
-                                <td>
+                                <td>{{ $post->title }}</td>
+                                <td>{{ $post->category->title }}</td>
+                                <td class="text-center">
+                                    @if ($post->views < 10)
+                                        <span class="badge bg-danger">
+                                    @elseif ($post->views < 100)
+                                        <span class="badge bg-warning">
+                                    @elseif ($post->views > 100)
+                                        <span class="badge bg-success">
+                                    @endif
+                                        {{ $post->views }}
+                                    </span>
+                                </td>
+                                <td class="text-center">
                                     <span class="badge bg-warning">5</span>
                                 </td>
                                 <td>
                                     <div class="action-button-block">
-                                        <a href="{{ route('admin.post.show', $post->id) }}" class="btn bg-gradient-default"><i class="fas fa-eye"></i></a>
+                                        <a href="{{ route('admin.post.show', $post->id) }}" class="btn bg-gradient-success"><i class="fas fa-eye"></i></a>
                                         <a href="{{ route('admin.post.edit', $post->id) }}" class="btn bg-gradient-primary"><i class="fas fa-pen"></i></a>
                                         <form action="{{ route('admin.post.delete', $post->id) }}" method="POST">
                                             @csrf

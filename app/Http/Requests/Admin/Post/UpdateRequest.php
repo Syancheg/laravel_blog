@@ -27,11 +27,11 @@ class UpdateRequest extends FormRequest
             'title' => 'required|string',
             'content' => 'required|string',
             'category_id' => 'required|integer',
-            'main_image' => 'file',
+            'main_image' => 'image|max:15360',
             'views' => 'integer',
-//            'seo_title' => 'string|null',
-//            'seo_description' => 'string|null',
-//            'seo_keywords' => 'string|null',
+            'seo_title' => 'nullable|string',
+            'seo_description' => 'nullable|string',
+            'seo_keywords' => 'nullable|string',
         ];
     }
 }

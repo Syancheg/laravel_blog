@@ -8,3 +8,20 @@
     display: flex;
     gap: 10px;
 }
+.post-main-image {
+    margin-bottom: 15px;
+    vertical-align: bottom;
+    width: 150px;
+    height: 150px;
+}
+.post-list-image {
+    vertical-align: bottom;
+    width: 70px;
+    height: 70px;
+}
+
+.post-main-image img, .post-list-image img {
+    border-radius: 5px;
+    width: 100%;
+    height: 100%;
+}

@@ -7,7 +7,14 @@
         <div>
             <a href="#" class="btn btn-default">назад</a>
         </div>
-        <form action="{{ route('admin.post.update', $post->id) }}" method="post">
+        <ul>
+            @foreach ($errors->all() as $index => $error)
+                <li>{{ $index }}</li>
+            @endforeach
+        </ul>
+
+
+        <form action="{{ route('admin.post.update', $post->id) }}" method="post" enctype="multipart/form-data">
             @csrf
             @method('PATCH')
             <div class="card-body">
@@ -15,20 +22,28 @@
                     <label for="title" class="required">Заголовок</label>
                     <input type="text" class="form-control" id="title" name="title" placeholder="Заголовок" value="{{ $post->title }}">
                     @error('title')
-                    <div class="text-danger">это поле необходимо </div>
+                    <div class="text-danger">{{ $errors->first('title') }}</div>
                     @enderror
                 </div>
                 <div class="form-group">
                     <label for="main-image">Главное изображение</label>
+                    @if($post->mainImage)
+                        <div class="post-main-image">
+                            <img src="{{ Storage::url($post->mainImage->path_cache) }}">
+                        </div>
+                    @endif
                     <div class="input-group">
                         <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="main-image">
+                            <input type="file" name="main_image" class="custom-file-input" id="main-image">
                             <label class="custom-file-label" for="main-image">Выбрать изображение</label>
                         </div>
                         <div class="input-group-append">
                             <span class="input-group-text">Загрузить</span>
                         </div>
                     </div>
+                    @error('main_image')
+                    <div class="text-danger">{{ $errors->first('main_image') }}</div>
+                    @enderror
                 </div>
                 <div class="form-group">
                     <label for="input-content" class="required">Контент</label>
@@ -36,16 +51,24 @@
                         {{ $post->content }}
                     </textarea>
                     @error('content')
-                    <div class="text-danger">это поле необходимо </div>
+                    <div class="text-danger">{{ $errors->first('content') }} </div>
                     @enderror
                 </div>
+
+
                 <div class="form-group">
-                    <label for="category" class="required">Категория</label>
-                    <input type="number" class="form-control" id="category" name="category_id" placeholder="Категория" value="{{ $post->category_id }}">
-                    @error('category_id')
-                    <div class="text-danger">это поле необходимо </div>
-                    @enderror
+                    <label for="category-select" class="required">Категория</label>
+                    <select class="custom-select rounded-5" id="category" name="category_id">
+                        @foreach($categories as $category)
+                            @if ($category->id === $post->category_id)
+                                <option selected value="{{ $category->id }}">{{ $category->title }}</option>
+                            @else
+                                <option value="{{ $category->id }}">{{ $category->title }}</option>
+                            @endif
+                        @endforeach
+                    </select>
                 </div>
+
                 <input type="hidden" name="views" value="{{ $post->views }}">
                 <input type="hidden" name="views" value="0">
                 <div class="form-group">

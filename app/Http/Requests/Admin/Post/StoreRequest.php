@@ -27,11 +27,11 @@ class StoreRequest extends FormRequest
             'title' => 'required|string',
             'content' => 'required|string',
             'category_id' => 'required|integer',
-            'main_image' => 'file',
+            'main_image' => 'image|max:15360',
             'views' => 'integer',
-            'seo_title' => 'string',
-            'seo_description' => 'string',
-            'seo_keywords' => 'string',
+            'seo_title' => 'nullable|string',
+            'seo_description' => 'nullable|string',
+            'seo_keywords' => 'nullable|string',
         ];
     }
 }
