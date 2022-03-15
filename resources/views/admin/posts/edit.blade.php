@@ -83,6 +83,24 @@
                     <label for="seo_keywords">Ключевые слова</label>
                     <input type="text" class="form-control" id="seo_keywords" name="seo_keywords" placeholder="Ключевые слова" value="{{ $data['seo']->seo_keywords ?? '' }}">
                 </div>
+                <div class="form-group">
+                    <label for="tags">Теги</label>
+                    <input type="hidden" name="tags" value="{{ $data['post']->tags }}">
+                    <div class="current-tags-block" id="cur-tags">
+                        <div class="tag-item bg-success">
+                            <span></span>
+                        </div>
+                    </div>
+                    @if($data['tags'])
+                        <div class="all-tags-block" id="all-tags">
+                            @foreach($data['tags'] as $tag)
+                                <div class="tag-item bg-warning" data-id="{{ $tag->id }}">
+                                    <span>{{ $tag->title }}</span>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
             </div>
 
 

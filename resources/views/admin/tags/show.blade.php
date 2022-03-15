@@ -1,12 +1,12 @@
-@extends('admin.layouts.main')
+@extends('admin.layouts.main', ['data' => $data['layout']])
 
 @section('content')
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
         <div class="col-12 mb-3 action-button-block">
-            <a href="{{ route('admin.tag.edit', $tag->id) }}" class="btn bg-gradient-primary"><i class="fas fa-pen"></i></a>
-            <form action="{{ route('admin.tag.delete', $tag->id) }}" method="POST">
+            <a href="{{ route('admin.tag.edit', $data['tag']->id) }}" class="btn bg-gradient-primary"><i class="fas fa-pen"></i></a>
+            <form action="{{ route('admin.tag.delete', $data['tag']->id) }}" method="POST">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="btn bg-gradient-danger">
@@ -20,11 +20,11 @@
                 <tbody>
                 <tr>
                     <td>ID</td>
-                    <td>{{ $tag->id }}</td>
+                    <td>{{ $data['tag']->id }}</td>
                 </tr>
                 <tr>
                     <td>Наименование</td>
-                    <td>{{ $tag->title }}</td>
+                    <td>{{ $data['tag']->title }}</td>
                 </tr>
                 </tbody>
             </table>

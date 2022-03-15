@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin\Tag;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Admin\AdminController;
 use App\Models\Tag;
 
-class DeleteController extends Controller
+class DeleteController extends AdminController
 {
     public function __invoke(Tag $tag)
     {

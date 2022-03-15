@@ -8,6 +8,7 @@ class ConstantHelper
 {
     static $POST_TYPE = 1;
     static $CATEGORY_TYPE = 2;
+    static $TOTAL_FOR_PAGE = 20;
     static $POST_MAIN_IMAGE_WIDTH = 300;
     static $POST_MAIN_IMAGE_HEIGTH = 300;
 

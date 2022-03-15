@@ -12,7 +12,6 @@ class ShowController extends AdminController
         $data['layout']['heading_title'] = $this->getHeadingTitle();
         $data['layout']['breadcrumbs'] = $this->getBreadcrumbs();
         $data['post'] = $post;
-        $this->getBreadcrumbs();
         return view('admin.posts.show', compact('data'));
     }
 

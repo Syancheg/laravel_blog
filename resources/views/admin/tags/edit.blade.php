@@ -1,4 +1,4 @@
-@extends('admin.layouts.main')
+@extends('admin.layouts.main', ['data' => $data['layout']])
 
 @section('content')
 <!-- Main content -->
@@ -7,15 +7,15 @@
         <div>
             <a href="#" class="btn btn-default">назад</a>
         </div>
-        <form action="{{ route('admin.tag.update', $tag->id) }}" method="post">
+        <form action="{{ route('admin.tag.update', $data['tag']->id) }}" method="post">
             @csrf
             @method('PATCH')
             <div class="card-body">
                 <div class="form-group">
                     <label for="title" class="required">Заголовок</label>
-                    <input type="text" class="form-control" id="title" name="title" placeholder="Заголовок" value="{{ $tag->title }}">
+                    <input type="text" class="form-control" id="title" name="title" placeholder="Заголовок" value="{{ $data['tag']->title }}">
                     @error('title')
-                    <div class="text-danger">это поле необходимо </div>
+                    <div class="text-danger">{{ $errors->first('title') }}</div>
                     @enderror
                 </div>
             </div>

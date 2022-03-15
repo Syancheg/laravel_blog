@@ -1,4 +1,4 @@
-@extends('admin.layouts.main')
+@extends('admin.layouts.main', ['data' => $data['layout']])
 
 @section('content')
 <!-- Main content -->
@@ -10,10 +10,10 @@
             <button type="button" class="btn bg-gradient-danger"><i class="fas fa-trash-alt"></i></button>
         </div>
         <div class="col-12">
-            @if(count($tags) > 0)
+            @if(count($data['tags']) > 0)
              <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Категории</h3>
+                    <h3 class="card-title">Теги</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -27,7 +27,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($tags as $tag)
+                        @foreach($data['tags'] as $tag)
                             <tr>
                                 <td>{{ $tag->id }}</td>
                                 <td>{{ $tag->title }}</td>

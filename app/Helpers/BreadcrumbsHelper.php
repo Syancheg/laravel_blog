@@ -20,6 +20,7 @@ class BreadcrumbsHelper
 {
 
     public function getAdminBreadcrumbs($name) {
+        dd($name);
         if ($name === ADMIN_MAIN) {
             $breadcrumbs[0] = [
                 'title' => ADMIN_TITLES['main']
@@ -34,7 +35,7 @@ class BreadcrumbsHelper
 
         $routeNames = explode('.', $name);
         if($routeNames[2] === 'index') {
-             $breadcrumbs[1] = [
+            $breadcrumbs[1] = [
                 'title' => $this->getTitle($routeNames[1]),
             ];
         } else {

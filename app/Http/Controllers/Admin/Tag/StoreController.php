@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Admin\Tag;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Requests\Admin\Tag\StoreRequest;
 use App\Models\Tag;
 
-class StoreController extends Controller
+class StoreController extends AdminController
 {
     public function __invoke(StoreRequest $request)
     {

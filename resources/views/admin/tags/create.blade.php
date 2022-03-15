@@ -1,4 +1,4 @@
-@extends('admin.layouts.main')
+@extends('admin.layouts.main', ['data' => $data['layout']])
 
 @section('content')
 <!-- Main content -->
@@ -14,7 +14,7 @@
                     <label for="title" class="required">Заголовок</label>
                     <input type="text" class="form-control" id="title" name="title" placeholder="Заголовок">
                     @error('title')
-                    <div class="text-danger">это поле необходимо </div>
+                    <div class="text-danger">{{ $errors->first('title') }}</div>
                     @enderror
                 </div>
             </div>

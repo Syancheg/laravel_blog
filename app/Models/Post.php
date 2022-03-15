@@ -24,4 +24,9 @@ class Post extends Model
     {
         return $this->belongsTo(File::class, 'main_image', 'id');
     }
+
+    public function tags()
+    {
+        return $this->hasMany(PostTag::class);
+    }
 }
