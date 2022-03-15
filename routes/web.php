@@ -14,7 +14,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['namespace' => 'Main'], function(){
-    Route::get('/', 'IndexController');
+    Route::get('/', 'IndexController')->name('public.main');
+    Route::get('/categories', 'CategoryController')->name('public.categories');
+    Route::get('/contact', 'ContactController')->name('public.contact');
 });
 
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout')->name('logout');

@@ -9,14 +9,10 @@ class CreateController extends AdminController
 {
     public function __invoke()
     {
-        $headingTitle = $this->getHeadingTitle();
-        $breadcrumbs = $this->getBreadcrumbs();
-        $categories = Category::all();
-        return view('admin.posts.create', compact(
-            'categories',
-            'breadcrumbs',
-            'headingTitle'
-        ));
+        $data['layout']['heading_title'] = $this->getHeadingTitle();
+        $data['layout']['breadcrumbs'] = $this->getBreadcrumbs();
+        $data['categories'] = Category::all();
+        return view('admin.posts.create', compact('data'));
     }
 
     private function getHeadingTitle() {

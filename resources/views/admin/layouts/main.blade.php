@@ -72,9 +72,9 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">{{ $headingTitle }}</h1>
+                        <h1 class="m-0">{{ $data['heading_title'] }}</h1>
                     </div>
-                    @include('admin.include.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
+                    @include('admin.include.breadcrumbs', ['breadcrumbs' => $data['breadcrumbs']])
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
         </div>

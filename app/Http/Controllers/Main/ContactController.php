@@ -7,13 +7,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Main\Common\MainMenuController;
 use Illuminate\Http\Request;
 
-class IndexController extends Controller
+class ContactController extends Controller
 {
     public function __invoke()
     {
         $data['layout']['main_menu'] = MainMenuController::getMenu();
-        $data['layout']['styles'] = ConstantHelper::$MAIN_STYLES;
-        $data['layout']['scripts'] = ConstantHelper::$MAIN_SCRIPTS;
-        return view('main.index', compact('data'));
+        $data['layout']['styles'] = ConstantHelper::$CONTACT_STYLES;
+        $data['layout']['scripts'] = ConstantHelper::$CONTACT_SCRIPTS;
+        return view('main.contact', compact('data'));
     }
 }

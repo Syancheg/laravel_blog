@@ -1,4 +1,4 @@
-@extends('admin.layouts.main', ['breadcrumbs' => $breadcrumbs, 'headingTitle' => $headingTitle])
+@extends('admin.layouts.main', ['data' => $data['layout']])
 
 @section('content')
 <!-- Main content -->
@@ -45,7 +45,7 @@
                 <div class="form-group">
                     <label for="category-select" class="required">Категория</label>
                     <select class="custom-select rounded-5" id="category" name="category_id">
-                        @foreach($categories as $category)
+                        @foreach($data['categories'] as $category)
                             <option value="{{ $category->id }}">{{ $category->title }}</option>
                         @endforeach
                     </select>

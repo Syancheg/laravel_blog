@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Avision</title>
+    <title>DOGS</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="Demo project">
+    <meta name="description" content="Dogs and dogs">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="{{ asset('styles/bootstrap4/bootstrap.min.css') }}">
     <link href="{{ asset('plugins/font-awesome-4.7.0/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
@@ -12,8 +12,9 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('plugins/OwlCarousel2-2.2.1/owl.theme.default.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('plugins/OwlCarousel2-2.2.1/animate.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('plugins/jquery.mb.YTPlayer-3.1.12/jquery.mb.YTPlayer.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('styles/main_styles.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('styles/responsive.css') }}">
+    @foreach($data['styles'] as  $style)
+        <link rel="stylesheet" type="text/css" href="{{ asset($style) }}">
+    @endforeach
 </head>
 <body>
 
@@ -26,22 +27,21 @@
             <div class="row">
                 <div class="col">
                     <div class="header_content d-flex flex-row align-items-center justify-content-start">
-                        <div class="logo"><a href="#">avision</a></div>
-                        <nav class="main_nav">
-                            <ul>
-                                <li class="active"><a href="index.html">Home</a></li>
-                                <li><a href="#">Fashion</a></li>
-                                <li><a href="#">Gadgets</a></li>
-                                <li><a href="#">Lifestyle</a></li>
-                                <li><a href="#">Video</a></li>
-                                <li><a href="contact.html">Contact</a></li>
-                            </ul>
-                        </nav>
+                        <div class="logo"><a href="#">DOGS</a></div>
+                        @if($data['main_menu'])
+                            <nav class="main_nav">
+                                <ul>
+                                    @foreach($data['main_menu'] as $item)
+                                        @if($item['active'])
+                                            <li class="active"><a href="{{ route($item['routeName']) }}">{{ $item['title'] }}</a></li>
+                                        @else
+                                            <li><a href="{{ route($item['routeName']) }}">{{ $item['title'] }}</a></li>
+                                        @endif
+                                    @endforeach
+                                </ul>
+                            </nav>
+                        @endif
                         <div class="search_container ml-auto">
-                            <div class="weather">
-                                <div class="temperature">+10°</div>
-                                <img class="weather_icon" src="{{ asset('images/cloud.png') }}" alt="">
-                            </div>
                             <form action="#">
                                 <input type="search" class="header_search_input" required="required" placeholder="Type to Search...">
                                 <img class="header_search_icon" src="{{ asset('images/search.png') }}" alt="">
@@ -68,16 +68,15 @@
                 <img class="header_search_icon menu_mm" src="{{ asset('images/search_2.png') }}" alt="">
             </form>
         </div>
-        <nav class="menu_nav">
-            <ul class="menu_mm">
-                <li class="menu_mm"><a href="index.html">home</a></li>
-                <li class="menu_mm"><a href="#">Fashion</a></li>
-                <li class="menu_mm"><a href="#">Gadgets</a></li>
-                <li class="menu_mm"><a href="#">Lifestyle</a></li>
-                <li class="menu_mm"><a href="#">Video</a></li>
-                <li class="menu_mm"><a href="contact.html">Contact</a></li>
-            </ul>
-        </nav>
+        @if($data['main_menu'])
+            <nav class="menu_nav">
+                <ul class="menu_mm">
+                    @foreach($data['main_menu'] as $item)
+                        <li class="menu_mm"><a href="{{ route($item['routeName']) }}">{{ $item['title'] }}</a></li>
+                    @endforeach
+                </ul>
+            </nav>
+        @endif
     </div>
 
 
@@ -138,7 +137,10 @@
 <script src="{{ asset('plugins/jquery.mb.YTPlayer-3.1.12/jquery.mb.YTPlayer.js') }}"></script>
 <script src="{{ asset('plugins/easing/easing.js') }}"></script>
 <script src="{{ asset('plugins/masonry/masonry.js') }}"></script>
-<script src="{{ asset('plugins/masonry/images_loaded.js') }}"></script>
-<script src="{{ asset('js/custom.js') }}"></script>
+@foreach($data['scripts'] as  $script)
+    <script src="{{ asset($script) }}"></script>
+@endforeach
+
+
 </body>
 </html>

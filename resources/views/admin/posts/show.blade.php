@@ -19,8 +19,18 @@
             <table class="table table-bordered">
                 <tbody>
                 <tr>
-                    <td>ID</td>
+                    <td width="200px">ID</td>
                     <td>{{ $post->id }}</td>
+                </tr>
+                <tr>
+                    <td>Фото</td>
+                    @if($post->mainImage)
+                        <td>
+                            <div class="post-main-image">
+                                <img src="{{ Storage::url($post->mainImage->path_cache) }}">
+                            </div>
+                        </td>
+                    @endif
                 </tr>
                 <tr>
                     <td>Наименование</td>
