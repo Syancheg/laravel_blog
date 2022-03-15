@@ -2,13 +2,24 @@
 
 namespace App\Http\Controllers\Admin\Post;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Admin\AdminController;
 use App\Models\Post;
 
-class ShowController extends Controller
+class ShowController extends AdminController
 {
     public function __invoke(Post $post)
     {
-        return view('admin.posts.show', compact('post'));
+        $headingTitle = $this->getHeadingTitle();
+        $breadcrumbs = $this->getBreadcrumbs();
+        $this->getBreadcrumbs();
+        return view('admin.posts.show', compact(
+            'post',
+            'breadcrumbs',
+            'headingTitle'
+        ));
+    }
+
+    private function getHeadingTitle() {
+        return 'Просмотр поста';
     }
 }
