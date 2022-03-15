@@ -37,4 +37,13 @@ class ConstantHelper
         'plugins/parallax-js-master/parallax.min.js',
         'js/contact.js'
     ];
+
+    static $POST_STYLES = [
+        'styles/post_nosidebar.css',
+        'styles/post_nosidebar_responsive.css'
+    ];
+    static $POST_SCRIPTS = [
+        'plugins/parallax-js-master/parallax.min.js',
+        'js/post_nosidebar.js'
+    ];
 }

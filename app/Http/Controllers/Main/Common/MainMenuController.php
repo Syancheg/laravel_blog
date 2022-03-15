@@ -20,7 +20,7 @@ class MainMenuController extends Controller
         $currentRoute = Route::currentRouteName();
         foreach ($allRoutes as $index => $route) {
             $names = explode('.', $index);
-            if($names[0] === 'public') {
+            if($names[0] === 'top-menu') {
                 $routes[] = [
                     'title' => MainMenuController::getTitle($names[1]),
                     'routeName' => $index,
