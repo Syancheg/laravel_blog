@@ -51,6 +51,13 @@
                     </select>
                 </div>
 
+                <div class="form-group">
+                    <label for="slug" class="required">Seo-URL</label>
+                    <input type="text" class="form-control" id="slug" name="slug" placeholder="seo-url">
+                    @error('slug')
+                    <div class="text-danger">{{ $errors->first('slug') }}</div>
+                    @enderror
+                </div>
                 <input type="hidden" name="views" value="0">
                 <div class="form-group">
                     <label for="seo_title">Заголовок страницы</label>

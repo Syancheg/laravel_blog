@@ -1,35 +1,28 @@
-@extends('admin.layouts.main', ['breadcrumbs' => $breadcrumbs, 'headingTitle' => $headingTitle])
+@extends('admin.layouts.main', ['data' => $data['layout']])
 
 @section('content')
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
         <div>
-            <a href="#" class="btn btn-default">назад</a>
+            <a href="{{ route('admin.post.index') }}" class="btn btn-default">назад</a>
         </div>
-        <ul>
-            @foreach ($errors->all() as $index => $error)
-                <li>{{ $index }}</li>
-            @endforeach
-        </ul>
-
-
-        <form action="{{ route('admin.post.update', $post->id) }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('admin.post.update', $data['post']->id) }}" method="post" enctype="multipart/form-data">
             @csrf
             @method('PATCH')
             <div class="card-body">
                 <div class="form-group">
                     <label for="title" class="required">Заголовок</label>
-                    <input type="text" class="form-control" id="title" name="title" placeholder="Заголовок" value="{{ $post->title }}">
+                    <input type="text" class="form-control" id="title" name="title" placeholder="Заголовок" value="{{ $data['post']->title }}">
                     @error('title')
                     <div class="text-danger">{{ $errors->first('title') }}</div>
                     @enderror
                 </div>
                 <div class="form-group">
                     <label for="main-image">Главное изображение</label>
-                    @if($post->mainImage)
+                    @if($data['post']->mainImage)
                         <div class="post-main-image">
-                            <img src="{{ Storage::url($post->mainImage->path_cache) }}">
+                            <img src="{{ Storage::url($data['post']->mainImage->path_cache) }}">
                         </div>
                     @endif
                     <div class="input-group">
@@ -48,7 +41,7 @@
                 <div class="form-group">
                     <label for="input-content" class="required">Контент</label>
                     <textarea id="summernote" name="content">
-                        {{ $post->content }}
+                        {{ $data['post']->content }}
                     </textarea>
                     @error('content')
                     <div class="text-danger">{{ $errors->first('content') }} </div>
@@ -59,8 +52,8 @@
                 <div class="form-group">
                     <label for="category-select" class="required">Категория</label>
                     <select class="custom-select rounded-5" id="category" name="category_id">
-                        @foreach($categories as $category)
-                            @if ($category->id === $post->category_id)
+                        @foreach($data['categories'] as $category)
+                            @if ($category->id === $data['post']->category_id)
                                 <option selected value="{{ $category->id }}">{{ $category->title }}</option>
                             @else
                                 <option value="{{ $category->id }}">{{ $category->title }}</option>
@@ -69,19 +62,26 @@
                     </select>
                 </div>
 
-                <input type="hidden" name="views" value="{{ $post->views }}">
+                <div class="form-group">
+                    <label for="slug" class="required">Seo-URL</label>
+                    <input type="text" class="form-control" id="slug" name="slug" value="{{ $data['post']->slug }}">
+                    @error('slug')
+                    <div class="text-danger">{{ $errors->first('slug') }}</div>
+                    @enderror
+                </div>
+                <input type="hidden" name="views" value="{{ $data['post']->views }}">
                 <input type="hidden" name="views" value="0">
                 <div class="form-group">
                     <label for="seo_title">Заголовок страницы</label>
-                    <input type="text" class="form-control" id="seo_title" name="seo_title" placeholder="Заголовок страницы" value="{{ $seo->seo_title ?? '' }}">
+                    <input type="text" class="form-control" id="seo_title" name="seo_title" placeholder="Заголовок страницы" value="{{ $data['seo']->seo_title ?? '' }}">
                 </div>
                 <div class="form-group">
                     <label for="seo_description">Описание страницы</label>
-                    <input type="text" class="form-control" id="seo_description" name="seo_description" placeholder="Описание страницы" value="{{ $seo->seo_description ?? '' }}">
+                    <input type="text" class="form-control" id="seo_description" name="seo_description" placeholder="Описание страницы" value="{{ $data['seo']->seo_description ?? '' }}">
                 </div>
                 <div class="form-group">
                     <label for="seo_keywords">Ключевые слова</label>
-                    <input type="text" class="form-control" id="seo_keywords" name="seo_keywords" placeholder="Ключевые слова" value="{{ $seo->seo_keywords ?? '' }}">
+                    <input type="text" class="form-control" id="seo_keywords" name="seo_keywords" placeholder="Ключевые слова" value="{{ $data['seo']->seo_keywords ?? '' }}">
                 </div>
             </div>
 

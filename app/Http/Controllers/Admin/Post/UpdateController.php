@@ -13,8 +13,6 @@ class UpdateController extends AdminController
 {
     public function __invoke(UpdateRequest $request, Post $post)
     {
-        $headingTitle = $this->getHeadingTitle();
-        $breadcrumbs = $this->getBreadcrumbs();
         $data = $request->validated();
         if (isset($data['main_image'])) {
             $imageHelper = new ImageHelper();
@@ -31,11 +29,12 @@ class UpdateController extends AdminController
         $seo['type'] = ConstantHelper::$POST_TYPE;
         $seo['item_id'] = $post->getAttribute('id');
         SeoHelper::saveSeo($seo);
-        return view('admin.posts.show', compact(
-            'post',
-            'breadcrumbs',
-            'headingTitle'
-        ));
+
+        $data['layout']['heading_title'] = $this->getHeadingTitle();
+        $data['layout']['breadcrumbs'] = $this->getBreadcrumbs();
+        $data['post'] = $post;
+
+        return view('admin.posts.show', compact('data'));
     }
 
     private function getHeadingTitle() {

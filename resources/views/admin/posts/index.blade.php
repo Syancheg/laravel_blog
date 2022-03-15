@@ -1,4 +1,4 @@
-@extends('admin.layouts.main', ['breadcrumbs' => $breadcrumbs, 'headingTitle' => $headingTitle])
+@extends('admin.layouts.main', ['data' => $data['layout']])
 
 @section('content')
 <!-- Main content -->
@@ -10,7 +10,7 @@
             <button type="button" class="btn bg-gradient-danger"><i class="fas fa-trash-alt"></i></button>
         </div>
         <div class="col-12">
-            @if(count($posts) > 0)
+            @if(count($data['posts']) > 0)
              <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Категории</h3>
@@ -30,7 +30,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($posts as $post)
+                        @foreach($data['posts'] as $post)
 
                             <tr>
                                 <td>{{ $post->id }}</td>

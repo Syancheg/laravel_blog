@@ -24,7 +24,8 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string',
+            'title' => 'required|string|max:255',
+            'slug' => 'required|string|unique:posts|max:100',
             'content' => 'required|string',
             'category_id' => 'required|integer',
             'main_image' => 'image|max:15360',

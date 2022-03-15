@@ -9,14 +9,11 @@ class ShowController extends AdminController
 {
     public function __invoke(Post $post)
     {
-        $headingTitle = $this->getHeadingTitle();
-        $breadcrumbs = $this->getBreadcrumbs();
+        $data['layout']['heading_title'] = $this->getHeadingTitle();
+        $data['layout']['breadcrumbs'] = $this->getBreadcrumbs();
+        $data['post'] = $post;
         $this->getBreadcrumbs();
-        return view('admin.posts.show', compact(
-            'post',
-            'breadcrumbs',
-            'headingTitle'
-        ));
+        return view('admin.posts.show', compact('data'));
     }
 
     private function getHeadingTitle() {

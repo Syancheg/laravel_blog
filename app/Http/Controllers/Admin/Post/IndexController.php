@@ -9,14 +9,10 @@ class IndexController extends AdminController
 {
     public function __invoke()
     {
-        $headingTitle = $this->getHeadingTitle();
-        $breadcrumbs = $this->getBreadcrumbs();
-        $posts = Post::take(20)->get();
-        return view('admin.posts.index', compact(
-            'posts',
-            'breadcrumbs',
-            'headingTitle'
-        ));
+        $data['layout']['heading_title'] = $this->getHeadingTitle();
+        $data['layout']['breadcrumbs'] = $this->getBreadcrumbs();
+        $data['posts'] = Post::take(20)->get();
+        return view('admin.posts.index', compact('data'));
     }
 
     private function getHeadingTitle() {

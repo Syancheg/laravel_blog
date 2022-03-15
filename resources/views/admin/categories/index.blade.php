@@ -1,4 +1,4 @@
-@extends('admin.layouts.main')
+@extends('admin.layouts.main', ['data' => $data['layout']])
 
 @section('content')
 <!-- Main content -->
@@ -10,7 +10,7 @@
             <button type="button" class="btn bg-gradient-danger"><i class="fas fa-trash-alt"></i></button>
         </div>
         <div class="col-12">
-            @if(count($categories) > 0)
+            @if(count($data['categories']) > 0)
              <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Категории</h3>
@@ -27,14 +27,14 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($categories as $category)
+                        @foreach($data['categories'] as $category)
                             <tr>
                                 <td>{{ $category->id }}</td>
                                 <td>{{ $category->title }}</td>
                                 <td><span class="badge bg-danger">2</span></td>
                                 <td>
                                     <div class="action-button-block">
-                                        <a href="{{ route('admin.category.show', $category->id) }}" class="btn bg-gradient-default"><i class="fas fa-eye"></i></a>
+                                        <a href="{{ route('admin.category.show', $category->id) }}" class="btn bg-gradient-success"><i class="fas fa-eye"></i></a>
                                         <a href="{{ route('admin.category.edit', $category->id) }}" class="btn bg-gradient-primary"><i class="fas fa-pen"></i></a>
                                         <form action="{{ route('admin.category.delete', $category->id) }}" method="POST">
                                             @csrf

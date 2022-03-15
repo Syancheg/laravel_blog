@@ -11,17 +11,12 @@ class EditController extends AdminController
 {
     public function __invoke(Post $post)
     {
-        $headingTitle = $this->getHeadingTitle();
-        $breadcrumbs = $this->getBreadcrumbs();
-        $seo = SeoDescription::where(['type' => 1, 'item_id' => $post->id])->first();
-        $categories = Category::all();
-        return view('admin.posts.edit', compact(
-            'post',
-            'seo',
-            'categories',
-            'breadcrumbs',
-            'headingTitle'
-        ));
+        $data['layout']['heading_title'] = $this->getHeadingTitle();
+        $data['layout']['breadcrumbs'] = $this->getBreadcrumbs();
+        $data['seo'] = SeoDescription::where(['type' => 1, 'item_id' => $post->id])->first();
+        $data['categories'] = Category::all();
+        $data['post'] = $post;
+        return view('admin.posts.edit', compact('data'));
     }
 
     private function getHeadingTitle() {

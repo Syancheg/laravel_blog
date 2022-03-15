@@ -35,17 +35,25 @@ class BreadcrumbsHelper
         $routeNames = explode('.', $name);
         if($routeNames[2] === 'index') {
              $breadcrumbs[1] = [
-                'title' => ADMIN_TITLES[$routeNames[1]],
+                'title' => $this->getTitle($routeNames[1]),
             ];
         } else {
             $breadcrumbs[1] = [
-                'title' => ADMIN_TITLES[$routeNames[1]],
+                'title' => $this->getTitle($routeNames[1]),
                 'routeName' => $routeNames[0] . '.' . $routeNames[1] . '.' . 'index'
             ];
             $breadcrumbs[2] = [
-                'title' => ADMIN_TITLES[$routeNames[2]],
+                'title' => $this->getTitle($routeNames[2]),
             ];
         }
         return $breadcrumbs;
+    }
+
+    private function getTitle($key) {
+        if (key_exists($key, ADMIN_TITLES)) {
+            return ADMIN_TITLES[$key];
+        } else {
+            return ucfirst($key);
+        }
     }
 }
