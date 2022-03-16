@@ -63,7 +63,7 @@
     </nav>
     <!-- /.navbar -->
 
-    @include('admin.include.sidebar')
+    @include('admin.include.sidebar', ['data' => $data['sidebar']])
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">

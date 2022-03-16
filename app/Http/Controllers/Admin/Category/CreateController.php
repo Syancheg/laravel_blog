@@ -6,14 +6,16 @@ use App\Http\Controllers\Admin\AdminController;
 
 class CreateController extends AdminController
 {
+
+    public function __construct()
+    {
+        $this->setupData();
+    }
+
     public function __invoke()
     {
-        $data['layout']['heading_title'] = $this->getHeadingTitle();
-        $data['layout']['breadcrumbs'] = $this->getBreadcrumbs();
+        $data = $this->data;
         return view('admin.categories.create', compact('data'));
     }
 
-    private function getHeadingTitle() {
-        return 'Создание новой категории';
-    }
 }

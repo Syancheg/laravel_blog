@@ -29,50 +29,51 @@
                 </div>
             </div>
         </div>
+        @if(isset($data['left_menu']))
+            <!-- Sidebar Menu -->
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <!-- Add icons to the links using the .nav-icon class
+                         with font-awesome or any other icon font library -->
+                    @foreach($data['left_menu'] as $item)
+                        @if($item['children'])
+                            <li class="nav-item {{ Request::is('admin/' . $item['pathPrefix'] . '*') ? 'menu-is-opening menu-open' : '' }}">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fa {{ $item['icon'] }}"></i>
+                                    <p>
+                                        {{ $item['title'] }}
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    @foreach($item['children'] as $children)
+                                        <li class="nav-item">
+                                            <a href="{{ route($children['routeName']) }}"
+                                               class="nav-link {{ Request::is('admin/' . $item['pathPrefix'] . '/' . $children['pathPrefix'] . '*') ? 'active' : '' }}"
+                                            >
+                                                <i class="nav-icon fa {{ $children['icon'] }}"></i>
+                                                <p>{{ $children['title'] }}</p>
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
 
-        <!-- Sidebar Menu -->
-        <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <!-- Add icons to the links using the .nav-icon class
-                     with font-awesome or any other icon font library -->
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-list-alt"></i>
-                        <p>
-                            Контент
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('admin.post.index') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Посты</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('admin.category.index') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Категории</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('admin.tag.index') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Теги</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('admin.banner.index') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Баннеры</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
-        <!-- /.sidebar-menu -->
+                            </li>
+                        @else
+                            <li class="nav-item">
+                                <a href="{{ route($item['routeName']) }}"
+                                   class="nav-link {{ Request::is('admin/' . $children['pathPrefix'] . '*') ? 'active' : '' }}"
+                                >
+                                    <i class="fa {{ $item['icon'] }} nav-icon"></i>
+                                    <p>{{ $item['title'] }}</p>
+                                </a>
+                            </li>
+                        @endif
+                    @endforeach
+                </ul>
+            </nav>
+            <!-- /.sidebar-menu -->
+        @endif
     </div>
     <!-- /.sidebar -->
 </aside>

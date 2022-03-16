@@ -6,14 +6,14 @@ use App\Http\Controllers\Admin\AdminController;
 
 class CreateController extends AdminController
 {
-    public function __invoke()
+    public function __construct()
     {
-        $data['layout']['heading_title'] = $this->getHeadingTitle();
-        $data['layout']['breadcrumbs'] = $this->getBreadcrumbs();
-        return view('admin.tags.create', compact('data'));
+        $this->setupData();
     }
 
-    private function getHeadingTitle() {
-        return 'Создание нового тега';
+    public function __invoke()
+    {
+        $data = $this->data;
+        return view('admin.tags.create', compact('data'));
     }
 }

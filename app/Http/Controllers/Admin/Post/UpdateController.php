@@ -13,27 +13,26 @@ use App\Models\PostTag;
 class UpdateController extends AdminController
 {
 
-    private $data;
     private $post;
-    private $seo;
-    private $tags;
     private $validatedData;
     private $bodyParse;
 
     public function __construct()
     {
-        $this->data = [
-            'layout' => [
-                'heading_title' => $this->getHeadingTitle(),
-                'breadcrumbs' => $this->getBreadcrumbs(),
-            ],
-        ];
+        $this->setupData();
     }
 
     public function __invoke(UpdateRequest $request, Post $post)
     {
         $this->validatedData = $request->validated();
         $this->post = $post;
+        $this->savePost();
+        $data = $this->data;
+        $data['post'] = $this->post;
+        return view('admin.posts.show', compact('data'));
+    }
+
+    private function savePost() {
         if (isset($this->validatedData['main_image'])) {
             $this->saveImage();
         }
@@ -43,9 +42,6 @@ class UpdateController extends AdminController
         $this->bodyParse = SeoHelper::parseSeoFromBody($this->validatedData);
         $this->post->update($this->bodyParse['body']);
         $this->saveSeo();
-        $data = $this->data;
-        $data['post'] = $this->post;
-        return view('admin.posts.show', compact('data'));
     }
 
     private function saveImage() {
@@ -81,9 +77,5 @@ class UpdateController extends AdminController
 
     private function checkTags(){
 
-    }
-
-    private function getHeadingTitle() {
-        return 'Просмотр поста';
     }
 }

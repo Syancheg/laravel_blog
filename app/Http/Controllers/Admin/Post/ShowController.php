@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers\Admin\Post;
 
+use App\Helpers\AdminLeftMenu;
 use App\Http\Controllers\Admin\AdminController;
 use App\Models\Post;
 
 class ShowController extends AdminController
 {
-    public function __invoke(Post $post)
+    public function __construct()
     {
-        $data['layout']['heading_title'] = $this->getHeadingTitle();
-        $data['layout']['breadcrumbs'] = $this->getBreadcrumbs();
-        $data['post'] = $post;
-        return view('admin.posts.show', compact('data'));
+        $this->setupData();
     }
 
-    private function getHeadingTitle() {
-        return 'Просмотр поста';
+    public function __invoke(Post $post)
+    {
+        $data = $this->data;
+        $data['post'] = $post;
+        return view('admin.posts.show', compact('data'));
     }
 }

@@ -6,17 +6,15 @@ use App\Http\Controllers\Admin\AdminController;
 
 class IndexController extends AdminController
 {
-    public function __invoke()
+
+    public function __construct()
     {
-        $headingTitle = $this->getHeadingTitle();
-        $breadcrumbs = $this->getBreadcrumbs();
-        return view('admin.main.index', compact(
-            'breadcrumbs',
-            'headingTitle'
-        ));
+        $this->setupData();
     }
 
-    private function getHeadingTitle() {
-        return 'Главная';
+    public function __invoke()
+    {
+        $data = $this->data;
+        return view('admin.main.index', compact('data'));
     }
 }

@@ -8,17 +8,25 @@ use App\Models\Tag;
 
 class CreateController extends AdminController
 {
+    public function __construct()
+    {
+        $this->setupData();
+    }
+
     public function __invoke()
     {
-        $data['layout']['heading_title'] = $this->getHeadingTitle();
-        $data['layout']['breadcrumbs'] = $this->getBreadcrumbs();
-        $data['categories'] = Category::all();
-        $data['tags'] = Tag::all();
+        $this->getCategories();
+        $this->getTags();
+        $data = $this->data;
         return view('admin.posts.create', compact('data'));
     }
 
-    private function getHeadingTitle() {
-        return 'Создание нового поста';
+    private function getCategories() {
+        $this->data['categories'] = Category::all();
+    }
+
+    private function getTags() {
+        $this->data['tags'] = Tag::all();
     }
 
 }

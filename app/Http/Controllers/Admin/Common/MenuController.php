@@ -10,24 +10,22 @@ use Illuminate\Support\Facades\Route;
 
 class MenuController extends AdminController
 {
-    private $data;
     private $paths;
 
     public function __construct()
     {
-        $this->data = [
-            'layout' => [
-                'heading_title' => $this->getHeadingTitle(),
-                'breadcrumbs' => $this->getBreadcrumbs(),
-            ],
-            'paths' => MenuForRoutes::take(ConstantHelper::$TOTAL_FOR_PAGE)->get()
-        ];
+        $this->setupData();
     }
 
     public function __invoke()
     {
+        $this->getPath();
         $data = $this->data;
         return view('admin.common.left_menu', compact('data'));
+    }
+
+    public function getPath() {
+        $this->data['paths'] = MenuForRoutes::take(ConstantHelper::$TOTAL_FOR_PAGE)->get();
     }
 
     public function refreshPath() {
@@ -66,9 +64,5 @@ class MenuController extends AdminController
 
     public function editPath(Request $request) {
         echo 1;
-    }
-
-    private function getHeadingTitle() {
-        return 'Редатирование наименований меню';
     }
 }

@@ -1,4 +1,4 @@
-@extends('admin.layouts.main', ['breadcrumbs' => $breadcrumbs, 'headingTitle' => $headingTitle])
+@extends('admin.layouts.main', ['data' => $data['layout']])
 
 @section('content')
 <!-- Main content -->

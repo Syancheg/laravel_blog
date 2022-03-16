@@ -7,15 +7,15 @@ use App\Models\Category;
 
 class ShowController extends AdminController
 {
-    public function __invoke(Category $category)
+    public function __construct()
     {
-        $data['layout']['heading_title'] = $this->getHeadingTitle();
-        $data['layout']['breadcrumbs'] = $this->getBreadcrumbs();
-        $data['category'] = $category;
-        return view('admin.categories.show', compact('data'));
+        $this->setupData();
     }
 
-    private function getHeadingTitle() {
-        return 'Создание новой категории';
+    public function __invoke(Category $category)
+    {
+        $data = $this->data;
+        $data['category'] = $category;
+        return view('admin.categories.show', compact('data'));
     }
 }

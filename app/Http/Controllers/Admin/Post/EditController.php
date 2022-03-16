@@ -10,17 +10,10 @@ use App\Models\Tag;
 
 class EditController extends AdminController
 {
-    private $data;
 
     public function __construct()
     {
-        $this->data = [
-            'layout' => [
-                'heading_title' => $this->getHeadingTitle(),
-                'breadcrumbs' => $this->getBreadcrumbs(),
-            ],
-            'categories' => Category::all(),
-        ];
+        $this->setupData();
     }
 
     public function __invoke(Post $post)
@@ -29,12 +22,13 @@ class EditController extends AdminController
         $this->getSeo($post->id);
         $this->convertTagsIdToString();
         $this->getTags();
+        $this->getCategories();
         $data = $this->data;
         return view('admin.posts.edit', compact('data'));
     }
 
-    private function getHeadingTitle() {
-        return 'Редатирование поста';
+    private function getCategories() {
+        $this->data['categories'] =  Category::all();
     }
 
     private function getSeo($postId) {
