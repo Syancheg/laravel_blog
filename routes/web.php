@@ -79,10 +79,3 @@ Route::group(['namespace' => 'Admin', 'middleware'=> 'auth', 'prefix' => 'admin'
 
 Auth::routes();
 
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

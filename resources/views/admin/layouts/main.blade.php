@@ -126,7 +126,8 @@
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('dist/js/demo.js') }}"></script>
 
-<script src="{{ asset('js/post_tags.js') }}"></script>
+<script src="{{ asset('js/ajax.js') }}"></script>
+<script src="{{ asset('js/additional.js') }}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{ asset('dist/js/pages/dashboard.js') }}"></script>
 <!-- Summernote -->
@@ -146,20 +147,7 @@
 <script>
     $(document).ready( () =>{
         $('#refresh_left_menu').on('click', () => {
-            console.log('click');
-            $.ajax({
-                url: "{{ route('admin.setting.left_menu.refresh') }}",
-                type: "GET",
-                headers: {
-                    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: (result) => {
-                    console.log(result);
-                },
-                error: (error) => {
-                    console.log(error);
-                }
-            });
+            getRequest("{{ route('admin.setting.left_menu.refresh') }}");
         });
     });
 </script>

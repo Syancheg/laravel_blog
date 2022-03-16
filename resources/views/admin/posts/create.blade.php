@@ -9,6 +9,7 @@
         </div>
         <form action="{{ route('admin.post.store') }}" method="post" enctype="multipart/form-data">
             @csrf
+            <input type="hidden" name="active" value="0">
             <div class="card-body">
                 <div class="form-group">
                     <label for="title" class="required">Заголовок</label>

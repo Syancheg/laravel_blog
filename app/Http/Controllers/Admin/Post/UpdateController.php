@@ -24,6 +24,7 @@ class UpdateController extends AdminController
 
     public function __invoke(UpdateRequest $request, Post $post)
     {
+        dd($request);
         $this->validatedData = $request->validated();
         $this->post = $post;
         $this->savePost();

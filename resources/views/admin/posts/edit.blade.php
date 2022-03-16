@@ -12,6 +12,12 @@
             @method('PATCH')
             <div class="card-body">
                 <div class="form-group">
+                    <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                        <input type="checkbox" name="active" class="custom-control-input" id="active-switch" value="{{ $data['post']->active }}">
+                        <label class="custom-control-label" for="active-switch">Видимость</label>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label for="title" class="required">Заголовок</label>
                     <input type="text" class="form-control" id="title" name="title" placeholder="Заголовок" value="{{ $data['post']->title }}">
                     @error('title')
