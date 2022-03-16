@@ -8,6 +8,7 @@ const ADMIN_TITLES = [
     'category' => 'Категории',
     'post' => 'Посты',
     'tag' => 'Теги',
+    'banner' => 'Баннеры',
     'index' => 'Список',
     'create' => 'Создать',
     'show' => 'Просмотр',
@@ -20,7 +21,6 @@ class BreadcrumbsHelper
 {
 
     public function getAdminBreadcrumbs($name) {
-        dd($name);
         if ($name === ADMIN_MAIN) {
             $breadcrumbs[0] = [
                 'title' => ADMIN_TITLES['main']
@@ -41,8 +41,13 @@ class BreadcrumbsHelper
         } else {
             $breadcrumbs[1] = [
                 'title' => $this->getTitle($routeNames[1]),
-                'routeName' => $routeNames[0] . '.' . $routeNames[1] . '.' . 'index'
+//                'routeName' => $routeNames[0] . '.' . $routeNames[1] . '.' . 'index'
             ];
+            if($routeNames[1] === 'setting') {
+                $breadcrumbs[1]['routeName'] = $routeNames[0] . '.' . $routeNames[1] . '.' . $routeNames[2];
+            } else {
+                $breadcrumbs[1]['routeName'] = $routeNames[0] . '.' . $routeNames[1] . '.' . 'index';
+            }
             $breadcrumbs[2] = [
                 'title' => $this->getTitle($routeNames[2]),
             ];

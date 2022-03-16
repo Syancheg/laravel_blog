@@ -9,14 +9,11 @@ use App\Helpers\BreadcrumbsHelper;
 class AdminController extends Controller
 {
     public $currentRoute;
-
-    public function __construct()
-    {
-        $this->currentRoute = Route::currentRouteName();
-    }
+    public $leftMenu;
 
     public function getBreadcrumbs()
     {
+        $this->currentRoute = Route::currentRouteName();
         $breadcrumbsHelper = new BreadcrumbsHelper();
         return $breadcrumbsHelper->getAdminBreadcrumbs($this->currentRoute);
     }

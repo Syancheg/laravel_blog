@@ -85,17 +85,21 @@
                 </div>
                 <div class="form-group">
                     <label for="tags">Теги</label>
-                    <input type="hidden" name="tags" value="{{ $data['post']->tags }}">
-                    <div class="current-tags-block" id="cur-tags">
-                        <div class="tag-item bg-success">
-                            <span></span>
+                    <input type="hidden" name="tags" id="tags-input" value="{{ $data['post']->tags }}">
+                    @if(isset($data['cur_tags']))
+                        <div class="tags-block" id="current-tags">
+                            @foreach($data['cur_tags'] as $tag)
+                                <div class="tag-item bg-success"  data-status="cur" data-id="{{ $tag->id }}">
+                                    {{ $tag->title }}
+                                </div>
+                            @endforeach
                         </div>
-                    </div>
-                    @if($data['tags'])
-                        <div class="all-tags-block" id="all-tags">
-                            @foreach($data['tags'] as $tag)
-                                <div class="tag-item bg-warning" data-id="{{ $tag->id }}">
-                                    <span>{{ $tag->title }}</span>
+                    @endif
+                    @if(isset($data['new_tags']))
+                        <div class="tags-block" id="all-tags">
+                            @foreach($data['new_tags'] as $tag)
+                                <div class="tag-item bg-warning" data-status="new" data-id="{{ $tag->id }}">
+                                    {{ $tag->title }}
                                 </div>
                             @endforeach
                         </div>

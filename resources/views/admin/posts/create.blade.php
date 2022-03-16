@@ -71,6 +71,21 @@
                     <label for="seo_keywords">Ключевые слова</label>
                     <input type="text" class="form-control" id="seo_keywords" name="seo_keywords" placeholder="Ключевые слова">
                 </div>
+                <div class="form-group">
+                    <label for="tags">Теги</label>
+                    <input type="hidden" name="tags" id="tags-input" value="">
+                    <div class="tags-block" id="current-tags">
+                    </div>
+                    @if(isset($data['tags']))
+                        <div class="tags-block" id="all-tags">
+                            @foreach($data['tags'] as $tag)
+                                <div class="tag-item bg-warning" data-status="new" data-id="{{ $tag->id }}">
+                                    {{ $tag->title }}
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
             </div>
             <!-- /.card-body -->
 

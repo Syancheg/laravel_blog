@@ -20,7 +20,6 @@ class EditController extends AdminController
                 'breadcrumbs' => $this->getBreadcrumbs(),
             ],
             'categories' => Category::all(),
-            'tags' => Tag::all()
         ];
     }
 
@@ -29,6 +28,7 @@ class EditController extends AdminController
         $this->data['post'] = $post;
         $this->getSeo($post->id);
         $this->convertTagsIdToString();
+        $this->getTags();
         $data = $this->data;
         return view('admin.posts.edit', compact('data'));
     }
@@ -42,21 +42,25 @@ class EditController extends AdminController
     }
 
     private function getTags() {
-
+        $arrTagsId = explode('.', $this->data['post']->tags);
+        $tags = Tag::all();
+        foreach ($tags as $tag) {
+            if (!in_array($tag->id, $arrTagsId)) {
+                $this->data['new_tags'][] = $tag;
+            } else {
+                $this->data['cur_tags'][] = $tag;
+            }
+        }
     }
 
     private function convertTagsIdToString() {
         $StringTags = '';
         foreach ($this->data['post']->tags as $index => $tag) {
-            $StringTags .= $tag->id;
+            $StringTags .= $tag->tag_id;
             if ($index < ($this->data['post']->tags->count() - 1)) {
                 $StringTags .= '.';
             }
         }
         $this->data['post']->tags = $StringTags;
-    }
-
-    private function deleteCurrentTags() {
-
     }
 }

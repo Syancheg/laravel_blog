@@ -25,7 +25,8 @@ class UpdateRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
-            'slug' => 'required|string|unique:posts|max:100',
+            'slug' => 'required|string|max:100',
+//            'slug' => 'required|string|unique:posts|max:100',
             'content' => 'required|string',
             'category_id' => 'required|integer',
             'main_image' => 'image|max:15360',
@@ -33,6 +34,7 @@ class UpdateRequest extends FormRequest
             'seo_title' => 'nullable|string',
             'seo_description' => 'nullable|string',
             'seo_keywords' => 'nullable|string',
+            'tags' => 'nullable|string',
         ];
     }
 }

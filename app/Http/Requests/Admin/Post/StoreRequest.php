@@ -33,6 +33,7 @@ class StoreRequest extends FormRequest
             'seo_title' => 'nullable|string',
             'seo_description' => 'nullable|string',
             'seo_keywords' => 'nullable|string',
+            'tags' => 'nullable|string',
         ];
     }
 }

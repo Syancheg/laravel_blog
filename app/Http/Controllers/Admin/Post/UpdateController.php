@@ -8,33 +8,79 @@ use App\Helpers\SeoHelper;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Requests\Admin\Post\UpdateRequest;
 use App\Models\Post;
+use App\Models\PostTag;
 
 class UpdateController extends AdminController
 {
+
+    private $data;
+    private $post;
+    private $seo;
+    private $tags;
+    private $validatedData;
+    private $bodyParse;
+
+    public function __construct()
+    {
+        $this->data = [
+            'layout' => [
+                'heading_title' => $this->getHeadingTitle(),
+                'breadcrumbs' => $this->getBreadcrumbs(),
+            ],
+        ];
+    }
+
     public function __invoke(UpdateRequest $request, Post $post)
     {
-        $data = $request->validated();
-        if (isset($data['main_image'])) {
-            $imageHelper = new ImageHelper();
-            $oldImage = $post->getAttribute('main_image');
-            if (!is_null($oldImage)) {
-                $imageHelper->removeImage($oldImage);
-            }
-            $mainImage = $data['main_image'];
-            $data['main_image'] = $imageHelper->saveImage($mainImage);
+        $this->validatedData = $request->validated();
+        $this->post = $post;
+        if (isset($this->validatedData['main_image'])) {
+            $this->saveImage();
         }
-        $res = SeoHelper::parseSeoFromBody($data);
-        $post->update($res['body']);
-        $seo = $res['seo'];
-        $seo['type'] = ConstantHelper::$POST_TYPE;
-        $seo['item_id'] = $post->getAttribute('id');
-        SeoHelper::saveSeo($seo);
-
-        $data['layout']['heading_title'] = $this->getHeadingTitle();
-        $data['layout']['breadcrumbs'] = $this->getBreadcrumbs();
-        $data['post'] = $post;
-
+        if(isset($this->validatedData['tags'])){
+            $this->saveTags();
+        }
+        $this->bodyParse = SeoHelper::parseSeoFromBody($this->validatedData);
+        $this->post->update($this->bodyParse['body']);
+        $this->saveSeo();
+        $data = $this->data;
+        $data['post'] = $this->post;
         return view('admin.posts.show', compact('data'));
+    }
+
+    private function saveImage() {
+        $imageHelper = new ImageHelper();
+        $oldImage = $this->post->getAttribute('main_image');
+        if (!is_null($oldImage)) {
+            $imageHelper->removeImage($oldImage);
+        }
+        $this->validatedData['main_image'] = $imageHelper->saveImage($this->validatedData['main_image']);
+    }
+
+    private function saveSeo() {
+        $this->bodyParse['seo']['type'] = ConstantHelper::$POST_TYPE;
+        $this->bodyParse['seo']['item_id'] = $this->post->id;
+        SeoHelper::saveSeo($this->bodyParse['seo']);
+    }
+
+    private function saveTags() {
+        $tags = explode('.', $this->validatedData['tags']);
+        foreach ($tags as $tag) {
+            $data = [
+                'post_id' => $this->post->id,
+                'tag_id' => (int)$tag
+            ];
+            PostTag::firstOrCreate($data);
+        }
+        unset($this->validatedData['tags']);
+    }
+
+    private function removeTags() {
+
+    }
+
+    private function checkTags(){
+
     }
 
     private function getHeadingTitle() {
