@@ -32,6 +32,12 @@ Route::group(['namespace' => 'Admin', 'middleware'=> 'auth', 'prefix' => 'admin'
     Route::group(['namespace' => 'Main'], function(){
         Route::get('/', 'IndexController')->name('admin.main');
     });
+    Route::group(['namespace' => 'Common', 'prefix' => 'filemanager'], function(){
+        Route::post('/get-file', 'FilemanagerController@getFiles')->name('admin.filemanager.get');
+        Route::post('/upload-file', 'FilemanagerController@uploadFiles')->name('admin.filemanager.upload');
+        Route::post('/new-folder', 'FilemanagerController@newFolder')->name('admin.filemanager.new_folder');
+        Route::post('/delete', 'FilemanagerController@deleteEntity')->name('admin.filemanager.delete');
+    });
     Route::group(['namespace' => 'Common','prefix' => 'setting'], function () {
         Route::get('/left_menu', 'MenuController')->name('admin.setting.left_menu');
         Route::get('/left_menu/refresh', 'MenuController@refreshPath')->name('admin.setting.left_menu.refresh');

@@ -10,27 +10,47 @@ use Intervention\Image\Facades\Image;
 
 class ImageHelper
 {
-    public function saveImage(UploadedFile $uploadedImage) {
-        $image['name'] = $uploadedImage->getClientOriginalName();
-        $public = 'public/posts/';
-        $uploadedImage->move(Storage::path($public).'origin/', $image['name']);
-        $this->makeCacheImage($public, $image['name']);
-        $image['path_origin'] = $public. 'origin/' . $image['name'];
-        $image['path_cache'] = $public . 'cache/' . $this->renameCacheImage($image['name']);
-        $file = File::create($image);
+    private $uploadedImage;
+    private $imageOriginalName;
+    private $currentPath;
+    private $baseOriginPath;
+    private $originPath;
+    private $cachePath;
+    private $baseCachePath;
+
+    public function __construct()
+    {
+        $this->baseOriginPath = 'public/origin/';
+        $this->baseCachePath = 'public/cache/';
+    }
+
+
+    public function saveImage(UploadedFile $uploadedImage, $path = '') {
+        $this->uploadedImage = $uploadedImage;
+        $this->imageOriginalName = $uploadedImage->getClientOriginalName();
+        $this->originPath = $this->baseOriginPath . $path;
+        $this->cachePath = $this->baseCachePath . $path;
+        $this->uploadedImage->move(Storage::path($this->originPath), $this->imageOriginalName);
+
+//        $this->makeCacheImage();
+        $image['path_origin'] = $this->originPath . $this->imageOriginalName;
+//        $image['path_cache'] = $this->cachePath . $this->renameCacheImage();
+        $image['path_cache'] = '';
+        $image['name'] = $this->imageOriginalName;
+        $file = File::firstOrCreate($image);
         return $file->id;
     }
 
-    private function renameCacheImage($filename) {
-        $name = explode('.', $filename);
+    private function renameCacheImage() {
+        $name = explode('.', $this->imageOriginalName);
         $name[0] .= '-' . ConstantHelper::$POST_MAIN_IMAGE_WIDTH . 'x' . ConstantHelper::$POST_MAIN_IMAGE_HEIGTH;
         return implode('.', $name);
     }
 
-    private function makeCacheImage($publicUrl, $name) {
-        $imageCache = Image::make(Storage::path($publicUrl).'origin/' . $name);
+    private function makeCacheImage() {
+        $imageCache = Image::make(Storage::path($this->originPath) . $this->imageOriginalName);
         $imageCache->fit(ConstantHelper::$POST_MAIN_IMAGE_WIDTH, ConstantHelper::$POST_MAIN_IMAGE_HEIGTH);
-        $imageCacheName = Storage::path($publicUrl) . 'cache/' . $this->renameCacheImage($name);
+        $imageCacheName = Storage::path($this->cachePath) . $this->renameCacheImage();
         $imageCache->save($imageCacheName, 80);
     }
 

@@ -37,3 +37,104 @@
     padding: 5px 10px;
     border-radius: 5px
 }
+
+.modal-header-control {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+.filemanager-modal-body {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.error-filemanager {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.error-filemanager > div {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.modal-header-btn-block {
+    padding: 5px;
+    display: flex;
+    gap: 10px;
+}
+.filemanager-modal-item {
+    position: relative;
+    border-radius: 5px;
+    width: 150px;
+    transition: all .3s ease;
+}
+.filemanager-image-block {
+    width: 100%;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.filemanager-modal-item:hover {
+    background: #eee;
+}
+
+.filemanager-image-block i {
+    font-size: 90px;
+}
+.filemanager-image-block img {
+    border-radius: 5px;
+    width: 100%;
+    height: 100%;
+}
+.filemanager-download {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    transition: all .3s ease;
+}
+.filemanager-download:hover {
+    background: #ccc;
+}
+.filemanager-download i {
+    font-size: 90px;
+}
+.filemanager-modal-body {
+    min-height: 150px;
+}
+.dir-add-button {
+    position: absolute;
+    opacity: 0;
+    right: -5px;
+    transition: all .3s ease;
+}
+.filemanager-modal-item:hover .dir-add-button {
+    opacity: 1;
+}
+.filemanager-input-file label  {
+    margin: 0;
+}
+.filemanager-dir-input {
+    position: absolute;
+    width: 400px;
+    top: 20px;
+}
+#filemanager-modal-file-input {
+    display: none;
+}
+
+.dir-add-button i {
+    font-size: 25px;
+    color: #30ab4c;
+}
+
