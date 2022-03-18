@@ -27,7 +27,7 @@
                     @if($data['post']->mainImage)
                         <td>
                             <div class="post-main-image">
-                                <img src="{{ Storage::url($data['post']->mainImage->path_cache) }}">
+                                <img src="{{ Storage::url($data['post']->mainImage->path_origin) }}">
                             </div>
                         </td>
                     @endif

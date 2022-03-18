@@ -25,10 +25,9 @@ class StoreController extends AdminController
     }
 
     private function savePost(){
-        if (isset($this->validatedData['main_image'])) {
-            $this->saveImage();
-        }
-        if (isset($this->validatedData['tags'])) {
+        if (is_null($this->validatedData['tags'])) {
+            unset($this->validatedData['tags']);
+        } else if (isset($this->validatedData['tags'])) {
             $this->tags = $this->validatedData['tags'];
             unset($this->validatedData['tags']);
         }
@@ -38,12 +37,11 @@ class StoreController extends AdminController
         $this->saveSeo();
     }
 
-    private function saveImage() {
-        $imageHelper = new ImageHelper();
-        $this->validatedData['main_image'] = $imageHelper->saveImage($this->validatedData['main_image']);
-    }
 
     private function saveTags() {
+        if(is_null($this->tags)){
+            return;
+        }
         $this->tags = explode('.', $this->tags);
         foreach ($this->tags as $tag) {
             $saveData = [

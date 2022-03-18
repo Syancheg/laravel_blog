@@ -5,10 +5,46 @@ $(document).ready(()  => {
     $('.tag-item').on('click', (event) => {
         changeTags(event.target)
     })
-    $('#active-switch').on('change', (event) => {
-        $(event.target).val($(event.target).is(':checked'))
+    $('.hover-image-block').mouseenter((event) => {
+        hoverImageBlockOn(event)
+    })
+    $('.hover-image-block').mouseleave((event) => {
+        hoverImageBlockOff(event)
     })
 })
+
+function hoverImageBlockOn(event){
+    let $block = $(event.currentTarget);
+    $block.append(getChangeHtmlBlock($block.attr('data-type'), $block.attr('data-id')));
+}
+
+function hoverImageBlockOff(event){
+    $('#post-image-change').remove();
+}
+
+function getChangeHtmlBlock(type, id) {
+    return '<div id="post-image-change">\n' +
+        '                            <button type="button" class="btn btn-success" onclick="openFilemanager(\''+ type +'\', ' + id + ')">\n' +
+        '                                <i class="fa fa-pen"></i>\n' +
+        '                            </button>\n' +
+        '                            <button type="button" class="btn btn-danger" onclick="deleteImage(\''+ type +'\', ' + id + ')">\n' +
+        '                                <i class="fa fa-trash"></i>\n' +
+        '                            </button>\n' +
+        '                        </div>';
+}
+
+function deleteImage(type, id) {
+    if(parseInt(id) === 0) {
+        return;
+    }
+    let image = '/storage/noimg.png';
+    let block = $('div.hover-image-block[data-id="' + id + '"][data-type="' + type + '"]');
+    if(block.length > 0){
+        $(block[0]).attr('data-id', 0);
+        $(block[0]).find('img').attr('src', image);
+        $(block[0]).find('input').val(0);
+    }
+}
 
 function changeTags(target) {
     let $target =  $(target);
@@ -40,7 +76,11 @@ function changeTags(target) {
     $('#tags-input').val(curTags);
 }
 
-function openFilemanager() {
+function openFilemanager(type, id) {
+    let count = $('#' + type).attr('data-count');
+    $('#count-image').val(count);
+    $('#image-id').val(id);
+    $('#image-type').val(type);
     $('#modal-filemanager').modal('show');
     loadData({})
 }
@@ -240,8 +280,32 @@ function filemanagerDelete() {
         });
     }
 }
-function filemanagerCheckItem(event) {
-    console.log(event);
+function filemanagerChangeItem() {
+    let items = [];
+    $('#modal-filemanager input:checkbox:checked').each((i, item) => {
+        let block = $('div [data-id="' + $(item).val() + '"]');
+        items.push({
+            id: block.find('img').attr('data-id'),
+            link: block.find('img').attr('src'),
+            type: block.attr('data-type')
+        })
+    });
+    filemanagerAddImages(items);
+}
+
+function filemanagerAddImages(items){
+    let settings = getImagesSettingForFilemanager();
+    for (let i = 0; i < items.length; i++) {
+        if((i < settings.count) && (items[i].type === 'image')) {
+            let block = $('div.hover-image-block[data-id="' + settings.id + '"][data-type="' + settings.type + '"]');
+            if(block.length > 0){
+                $(block[0]).attr('data-id', items[i].id);
+                $(block[0]).find('img').attr('src', items[i].link);
+                $(block[0]).find('input').val(items[i].id);
+            }
+        }
+    }
+    $('#modal-filemanager').modal('hide');
 }
 
 function filemanagerPageTo(page){
@@ -283,7 +347,7 @@ function generateHtml(result) {
                 html += '<i class="fa-solid fa-folder"></i>';
                 break;
             case 'image':
-                html += '<img src="' + item['src'] + '">';
+                html += '<img  data-id="' + item['file_id'] + '" src="' + item['src'] + '">';
                 break;
             case 'video':
                 html += '<video></video>';
@@ -330,6 +394,13 @@ function getDeleteUrl(){
 function getFilemanagegUrl(){
     return $('#filemanage-ajax').val();
 }
+function getImagesSettingForFilemanager() {
+    return {
+        id: $('#image-id').val(),
+        count: $('#count-image').val(),
+        type: $('#image-type').val()
+    }
+}
 
 function bytesToSize(bytes) {
     var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
@@ -337,5 +408,6 @@ function bytesToSize(bytes) {
     var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
     return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
 }
+
 
 

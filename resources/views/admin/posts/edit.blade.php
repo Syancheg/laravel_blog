@@ -26,31 +26,21 @@
                 </div>
                 <div class="form-group">
                     <label for="main-image">Главное изображение</label>
-                    @if($data['post']->mainImage)
-                        <div class="post-main-image">
-                            <img src="{{ Storage::url($data['post']->mainImage->path_cache) }}">
-                        </div>
-                    @endif
-
-                    <div class="post-main-image">
-                        <button type="button" class="filemanager-download" onclick="openFilemanager()">
-                            <i class="fa-solid fa-cloud-arrow-down"></i>
-                        </button>
+                    <div class="post-main-image" id="post_main_image" data-count="1">
+                        @if($data['post']->main_image)
+                            <div class="hover-image-block" data-type="post_main_image" data-id="{{ $data['post']->main_image }}">
+                                <img src="{{ Storage::url($data['post']->mainImage->path_origin) }}">
+                                <input type="hidden" id="main_image" name="main_image" class="main_image-input" value="{{ $data['post']->main_image }}">
+                            </div>
+                        @else
+                            <div class="hover-image-block" data-type="post_main_image" data-id="0">
+                                <img src="{{ Storage::url('public/noimg.png') }}">
+                                <input type="hidden" id="main_image" name="main_image" class="main_image-input" value="">
+                            </div>
+                        @endif
                         <input type="hidden" id="filemanage-ajax" value="{{ route('admin.filemanager.get') }}">
+                        <input type="hidden" id="main_image" value="">
                     </div>
-
-                    <div class="input-group">
-                        <div class="custom-file">
-                            <input type="file" name="main_image" class="custom-file-input" id="main-image">
-                            <label class="custom-file-label" for="main-image">Выбрать изображение</label>
-                        </div>
-                        <div class="input-group-append">
-                            <span class="input-group-text">Загрузить</span>
-                        </div>
-                    </div>
-                    @error('main_image')
-                    <div class="text-danger">{{ $errors->first('main_image') }}</div>
-                    @enderror
                 </div>
                 <div class="form-group">
                     <label for="input-content" class="required">Контент</label>
@@ -169,6 +159,9 @@
                             <input type="hidden" id="new-folder-url">
                             <input type="hidden" id="current-page">
                             <input type="hidden" id="all-pages">
+                            <input type="hidden" id="count-image">
+                            <input type="hidden" id="image-id">
+                            <input type="hidden" id="image-type">
                         </div>
                     </div>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -180,7 +173,7 @@
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" id="filemanager-modal-close" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" onclick="filemanagerChangeItem()" class="btn btn-primary">Выбрать</button>
                 </div>
             </div>
             <!-- /.modal-content -->

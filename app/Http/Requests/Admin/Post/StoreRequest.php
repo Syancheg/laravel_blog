@@ -28,7 +28,7 @@ class StoreRequest extends FormRequest
             'slug' => 'required|string|unique:posts|max:100',
             'content' => 'required|string',
             'category_id' => 'required|integer',
-            'main_image' => 'image|max:15360',
+            'main_image' => 'nullable|integer',
             'views' => 'integer',
             'seo_title' => 'nullable|string',
             'seo_description' => 'nullable|string',

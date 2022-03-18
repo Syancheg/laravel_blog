@@ -138,3 +138,20 @@
     color: #30ab4c;
 }
 
+.hover-image-block {
+    position: relative;
+}
+
+#post-image-change {
+    display: flex;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transition: all .3s ease;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    top: 0;
+    background: rgba(255,255,255,.3);
+}
+

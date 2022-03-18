@@ -33,24 +33,12 @@ class UpdateController extends AdminController
     }
 
     private function savePost() {
-        if (isset($this->validatedData['main_image'])) {
-            $this->saveImage();
-        }
         if(isset($this->validatedData['tags'])){
             $this->saveTags();
         }
         $this->bodyParse = SeoHelper::parseSeoFromBody($this->validatedData);
         $this->post->update($this->bodyParse['body']);
         $this->saveSeo();
-    }
-
-    private function saveImage() {
-        $imageHelper = new ImageHelper();
-        $oldImage = $this->post->getAttribute('main_image');
-        if (!is_null($oldImage)) {
-            $imageHelper->removeImage($oldImage);
-        }
-        $this->validatedData['main_image'] = $imageHelper->saveImage($this->validatedData['main_image']);
     }
 
     private function saveSeo() {
@@ -60,6 +48,9 @@ class UpdateController extends AdminController
     }
 
     private function saveTags() {
+        if(is_null($this->validatedData['tags'])){
+            return;
+        }
         $tags = explode('.', $this->validatedData['tags']);
         foreach ($tags as $tag) {
             $data = [

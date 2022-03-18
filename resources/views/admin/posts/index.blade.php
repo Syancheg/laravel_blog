@@ -37,7 +37,7 @@
                                 <td>
                                     @if($post->mainImage)
                                         <div class="post-list-image">
-                                            <img src="{{ Storage::url($post->mainImage->path_cache) }}">
+                                            <img src="{{ Storage::url($post->mainImage->path_origin) }}">
                                         </div>
                                     @endif
                                 </td>
