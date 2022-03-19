@@ -27,6 +27,7 @@ class UpdateRequest extends FormRequest
             'title' => 'required|string|max:255',
             'slug' => 'required|string|max:100',
 //            'slug' => 'required|string|unique:posts|max:100',
+            'active' => 'nullable|string',
             'content' => 'required|string',
             'category_id' => 'required|integer',
             'main_image' => 'nullable|integer',

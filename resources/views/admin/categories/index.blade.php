@@ -31,7 +31,7 @@
                             <tr>
                                 <td>{{ $category->id }}</td>
                                 <td>{{ $category->title }}</td>
-                                <td><span class="badge bg-danger">2</span></td>
+                                <td><span class="badge bg-danger">{{ count($category->posts) }}</span></td>
                                 <td>
                                     <div class="action-button-block">
                                         <a href="{{ route('admin.category.show', $category->id) }}" class="btn bg-gradient-success"><i class="fas fa-eye"></i></a>

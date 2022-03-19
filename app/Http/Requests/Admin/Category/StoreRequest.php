@@ -25,7 +25,15 @@ class StoreRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
-            'slug' => 'required|string|unique:posts|max:100',
+            'image' => 'nullable|integer',
+            'banner' => 'nullable|integer',
+            'content' => 'nullable|string',
+            'slug' => 'required|string|max:100',
+//            'slug' => 'required|string|unique:categories|max:100',
+            'seo_title' => 'nullable|string',
+            'seo_description' => 'nullable|string',
+            'seo_keywords' => 'nullable|string',
+            'tags' => 'nullable|string',
         ];
     }
 }

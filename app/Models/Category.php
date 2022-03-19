@@ -12,11 +12,23 @@ class Category extends Model
     use SoftDeletes;
 
     protected $table = 'categories';
-
     protected $guarded = false;
 
-//    public function getRouteKeyName()
-//    {
-//        return 'slug';
-//    }
+    public function imagePath() {
+        return $this->belongsTo(File::class, 'image', 'id');
+    }
+
+    public function bannerPath() {
+        return $this->belongsTo(File::class, 'banner', 'id');
+    }
+
+    public function tags()
+    {
+        return $this->hasMany(CategoryTag::class);
+    }
+
+    public function posts() {
+        return $this->hasMany(Post::class);
+    }
+
 }

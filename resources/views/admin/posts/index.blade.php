@@ -13,10 +13,11 @@
             @if(count($data['posts']) > 0)
              <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Категории</h3>
+                    <h3 class="card-title">Посты</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
+                    <input type="hidden" value="{{ $data['tootle_active_url'] }}" id="active-ajax-url">
                     <table class="table table-bordered">
                         <thead>
                         <tr>
@@ -24,6 +25,7 @@
                             <th style="width: 5%">Фото</th>
                             <th style="width: 60%">Наименование</th>
                             <th style="width: 5%">Категория</th>
+                            <th style="width: 5%">Видимость</th>
                             <th style="width: 5%">Просмотры</th>
                             <th style="width: 5%">Комментарии</th>
                             <th style="width: 15%">Действие</th>
@@ -43,6 +45,12 @@
                                 </td>
                                 <td>{{ $post->title }}</td>
                                 <td>{{ $post->category->title }}</td>
+                                <td class="text-center">
+                                    <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                                        <input onchange="tootlePostActive({{ $post->id }})" type="checkbox" @if($post->active) checked @endif name="switch-active-{{ $post->id }}" class="custom-control-input" id="active-switch-{{ $post->id }}">
+                                        <label class="custom-control-label" for="active-switch-{{ $post->id }}"></label>
+                                    </div>
+                                </td>
                                 <td class="text-center">
                                     @if ($post->views < 10)
                                         <span class="badge bg-danger">

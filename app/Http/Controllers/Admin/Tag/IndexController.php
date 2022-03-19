@@ -15,13 +15,9 @@ class IndexController extends AdminController
 
     public function __invoke()
     {
-        $this->getTags();
+        $this->getAllTags();
         $data = $this->data;
         return view('admin.tags.index', compact('data'));
-    }
-
-    private function getTags() {
-        $this->data['tags'] = Tag::take(ConstantHelper::$TOTAL_FOR_PAGE)->get();
     }
 
 }

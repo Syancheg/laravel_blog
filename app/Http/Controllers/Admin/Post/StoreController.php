@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers\Admin\Post;
 
-use App\Helpers\ImageHelper;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Requests\Admin\Post\StoreRequest;
 use App\Models\Post;
 use App\Helpers\SeoHelper;
-use App\Helpers\ConstantHelper;
 use App\Models\PostTag;
 
 class StoreController extends AdminController
@@ -53,7 +51,7 @@ class StoreController extends AdminController
     }
 
     private function saveSeo() {
-        $this->bodyParse['seo']['type'] = ConstantHelper::$POST_TYPE;
+        $this->bodyParse['seo']['type'] = config('constants.seo_post_type');
         $this->bodyParse['seo']['item_id'] = $this->post->id;
         SeoHelper::saveSeo($this->bodyParse['seo']);
     }

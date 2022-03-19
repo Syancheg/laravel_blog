@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helpers\AdminLeftMenu;
 use App\Http\Controllers\Controller;
+use App\Models\Category;
+use App\Models\Tag;
 use Illuminate\Support\Facades\Route;
 use App\Helpers\BreadcrumbsHelper;
 
@@ -31,4 +33,14 @@ class AdminController extends Controller
             ]
         ];
     }
+
+    public function getAllTags() {
+        $this->data['tags'] = Tag::all();
+    }
+
+    public function getAllCategories() {
+        $this->data['categories'] =  Category::all();
+    }
+
+
 }

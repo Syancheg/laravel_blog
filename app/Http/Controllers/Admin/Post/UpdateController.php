@@ -25,6 +25,7 @@ class UpdateController extends AdminController
     public function __invoke(UpdateRequest $request, Post $post)
     {
         $this->validatedData = $request->validated();
+        $this->validatedData['active'] = isset($this->validatedData['active']);
         $this->post = $post;
         $this->savePost();
         $data = $this->data;
@@ -42,7 +43,7 @@ class UpdateController extends AdminController
     }
 
     private function saveSeo() {
-        $this->bodyParse['seo']['type'] = ConstantHelper::$POST_TYPE;
+        $this->bodyParse['seo']['type'] = config('constants.seo_post_type');
         $this->bodyParse['seo']['item_id'] = $this->post->id;
         SeoHelper::saveSeo($this->bodyParse['seo']);
     }

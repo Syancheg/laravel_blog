@@ -92,7 +92,7 @@ class FilemanagerController extends AdminController
                         'name' => $item,
                         'link' => str_replace($this->storagePath, '', $filename),
                         'src' => str_replace($this->storagePath, '/storage/origin', $filename),
-                        'file_id' => File::select('id')->where(['path_origin' => str_replace($this->storagePath, 'public/origin', $filename)])->get()[0]->id,
+                        'file_id' => File::select('id')->where(['path_origin' => str_replace($this->storagePath, 'public/origin', $filename)])->first()->id,
                         'type' => 'image',
                         'id' => random_int(100, 1000)
                     ];
@@ -198,9 +198,9 @@ class FilemanagerController extends AdminController
     }
 
     private function deleteFile($filename){
-        $file = File::where(['path_origin' => str_replace($this->storagePath, 'public/origin', $filename)])->get();
-        if ($file->count()) {
-            $file[0]->delete();
+        $file = File::where(['path_origin' => str_replace($this->storagePath, 'public/origin', $filename)])->first();
+        if ($file) {
+            $file->delete();
         }
         return unlink($filename);
     }

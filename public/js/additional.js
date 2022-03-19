@@ -82,7 +82,17 @@ function openFilemanager(type, id) {
     $('#image-id').val(id);
     $('#image-type').val(type);
     $('#modal-filemanager').modal('show');
-    loadData({})
+    let data = {};
+    let url = localStorage.getItem('filemanager-url');
+    let page = localStorage.getItem('filemanager-page')
+    if(url){
+        data.url = url
+    }
+    if(page){
+        data.page = page
+    }
+    loadData(data)
+
 }
 
 function addFileListener() {
@@ -141,6 +151,7 @@ function setupBaseUrls($data) {
 function loadData(data) {
     startLoader();
     let url = getFilemanagegUrl();
+    localStorage.setItem('filemanager-url', data.url);
     postRequest(url, data).then( (result)=>{
         stopLoader();
         setupBaseUrls(result['base_settings']);
@@ -313,6 +324,7 @@ function filemanagerPageTo(page){
         url: $('#current-url').val(),
         page: page
     }
+    localStorage.setItem('filemanager-page', page);
     loadData(data);
 }
 
@@ -407,6 +419,15 @@ function bytesToSize(bytes) {
     if (bytes === 0) return '0 Byte';
     var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
     return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+}
+
+function tootlePostActive(id) {
+    let url = $('#active-ajax-url') .val() + '/' + id;
+    getRequest(url);
+}
+
+function test() {
+
 }
 
 
