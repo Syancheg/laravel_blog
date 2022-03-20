@@ -61,6 +61,12 @@ Route::group(['namespace' => 'Admin', 'middleware'=> 'auth', 'prefix' => 'admin'
             Route::get('/{tag}/edit', 'EditController')->name('admin.tag.edit');
             Route::patch('/{tag}', 'UpdateController')->name('admin.tag.update');
             Route::delete('/{tag}', 'DeleteController')->name('admin.tag.delete');
+            Route::post('/ajax/rename-tag/{tag?}', 'IndexController@renameTag')
+//                ->where('tag', '\d')
+                ->name('admin.tag.rename-tag');
+            Route::get('/ajax/delete-tag/{tag?}', 'IndexController@deleteTag')
+//                ->where('tag', '\d')
+                ->name('admin.tag.delete-tag');
         });
         Route::group(['namespace' => 'Post', 'prefix' => 'post'], function(){
             Route::get('/', 'IndexController')->name('admin.post.index');

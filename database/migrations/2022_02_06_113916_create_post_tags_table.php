@@ -24,8 +24,8 @@ class CreatePostTagsTable extends Migration
             $table->index('tag_id', 'post_tag_tag_idx');
 
             // foreign key
-            $table->foreign('post_id', 'post_tag_post_fk')->on('posts')->references('id');
-            $table->foreign('tag_id', 'post_tag_tag_fk')->on('tags')->references('id');
+            $table->foreign('post_id', 'post_tag_post_fk')->on('posts')->references('id')->onDelete('cascade');
+            $table->foreign('tag_id', 'post_tag_tag_fk')->on('tags')->references('id')->onDelete('cascade');
         });
     }
 

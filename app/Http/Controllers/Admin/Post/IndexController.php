@@ -22,7 +22,7 @@ class IndexController extends AdminController
     }
 
     private function getPosts() {
-        $this->data['posts'] = Post::take(config('constants.total_for_page'))->get();
+        $this->data['posts'] = Post::paginate(config('constants.total_for_page'));
     }
 
     public function toogleActive($id) {

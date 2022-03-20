@@ -425,9 +425,53 @@ function tootlePostActive(id) {
     let url = $('#active-ajax-url') .val() + '/' + id;
     getRequest(url);
 }
+function modalRenameTag() {
+    let modal = $('#modal-tag-rename');
+    let id = modal.find('[name="id"]').val();
+    let name = modal.find('[name="name"]').val();
+    let url = modal.find('[name="ajax-rename-url"]').val();
+    url = `${url}/${id}`;
+    postRequest(url, { name: name}).then( result => {
+        if(result){
+            updateTagName(result);
+            modal.find('[name="name"]').val('')
+            modal.modal('hide');
+        }  else {
+            alert('Что то не так');
+        }
 
-function test() {
+    }).catch( error => {
+        alert('Не удалось переиновать тег');
+        console.log(error);
+    });
+}
 
+function updateTagName(tag) {
+    $('#tag-item-' + tag.id).find('div.tag-item__title').text(tag.title)
+}
+
+function openModalTagRename(id) {
+    let tagName = $.trim($('#tag-item-' + id).find('div.tag-item__title').text());
+    let modal = $('#modal-tag-rename');
+    modal.find('.add-header').text(tagName);
+    modal.find('[name="id"]').val(id);
+    modal.modal('show');
+}
+
+function deleteTag(id) {
+    let modal = $('#modal-tag-rename');
+    let url = modal.find('[name="ajax-delete-url"]').val();
+    url = `${url}/${id}`;
+    getRequest(url).then( result => {
+        if(result){
+            $('#tag-item-' + result.id).remove();
+        }  else {
+            alert('Что то не так');
+        }
+        console.log(result)
+    }).catch( error => {
+        console.log(error)
+    });
 }
 
 

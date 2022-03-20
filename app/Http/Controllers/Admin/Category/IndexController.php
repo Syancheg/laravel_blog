@@ -16,12 +16,11 @@ class IndexController extends AdminController
     public function __invoke()
     {
         $this->getCategories();
-//        dd($this->data['categories']);
         $data = $this->data;
         return view('admin.categories.index', compact('data'));
     }
 
     private function getCategories(){
-        $this->data['categories'] = Category::take(config('constants.total_for_page'))->get();
+        $this->data['categories'] = Category::paginate(config('constants.total_for_page'));
     }
 }
