@@ -38,10 +38,17 @@ Route::group(['namespace' => 'Admin', 'middleware'=> 'auth', 'prefix' => 'admin'
         Route::post('/new-folder', 'FilemanagerController@newFolder')->name('admin.filemanager.new_folder');
         Route::post('/delete', 'FilemanagerController@deleteEntity')->name('admin.filemanager.delete');
     });
-    Route::group(['namespace' => 'Common','prefix' => 'setting'], function () {
-        Route::get('/left_menu', 'MenuController')->name('admin.setting.left_menu');
-        Route::get('/left_menu/refresh', 'MenuController@refreshPath')->name('admin.setting.left_menu.refresh');
-        Route::post('/left_menu/edit', 'MenuController@editPath')->name('admin.setting.left_menu.edit');
+    Route::group(['prefix' => 'setting'], function () {
+        Route::group(['namespace' => 'Common', 'prefix' => 'left_menu'], function () {
+            Route::get('/', 'MenuController')->name('admin.setting.left_menu');
+            Route::get('/refresh', 'MenuController@refreshPath')->name('admin.setting.left_menu.refresh');
+            Route::post('/edit', 'MenuController@editPath')->name('admin.setting.left_menu.edit');
+        });
+        Route::group(['namespace' => 'User', 'prefix' => 'user'], function () {
+            Route::get('/', 'IndexController')->name('admin.setting.user');
+            Route::post('/ajax/change-password/{user?}', 'UpdateController@changePassword')->name('admin.setting.user.change-password');
+            Route::post('/ajax/edit/{user?}', 'UpdateController@editUser')->name('admin.setting.user.edit');
+        });
     });
     Route::group(['prefix' => 'content'], function (){
         Route::group(['namespace' => 'Category', 'prefix' => 'category'], function(){
@@ -55,12 +62,7 @@ Route::group(['namespace' => 'Admin', 'middleware'=> 'auth', 'prefix' => 'admin'
         });
         Route::group(['namespace' => 'Tag', 'prefix' => 'tag'], function(){
             Route::get('/', 'IndexController')->name('admin.tag.index');
-            Route::get('/create', 'CreateController')->name('admin.tag.create');
-            Route::post('/', 'StoreController')->name('admin.tag.store');
-            Route::get('/{tag}', 'ShowController')->name('admin.tag.show');
-            Route::get('/{tag}/edit', 'EditController')->name('admin.tag.edit');
-            Route::patch('/{tag}', 'UpdateController')->name('admin.tag.update');
-            Route::delete('/{tag}', 'DeleteController')->name('admin.tag.delete');
+            Route::post('/ajax/new-tag', 'IndexController@newTag')->name('admin.tag.new-tag');
             Route::post('/ajax/rename-tag/{tag?}', 'IndexController@renameTag')
 //                ->where('tag', '\d')
                 ->name('admin.tag.rename-tag');

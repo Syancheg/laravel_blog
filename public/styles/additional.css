@@ -20,7 +20,7 @@
     height: 70px;
 }
 
-.post-main-image img, .post-list-image img {
+.post-main-image img, .post-list-image img, .user-main-image img {
     border-radius: 5px;
     width: 100%;
     height: 100%;
@@ -193,6 +193,18 @@
     top: 0;
     background: rgba(255,255,255,.3);
 }
+
+.user-main-image {
+    vertical-align: bottom;
+    width: 80px;
+    height: 80px;
+}
+
+.user-image-cell {
+    display: flex;
+    justify-content: center;
+}
+
 
 
 

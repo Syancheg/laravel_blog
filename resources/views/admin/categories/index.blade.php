@@ -39,7 +39,7 @@
                                         <form action="{{ route('admin.category.delete', $category->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn bg-gradient-danger">
+                                            <button type="submit" @if(count($category->posts)) disabled @endif class="btn bg-gradient-danger">
                                                 <i class="fas fa-trash-alt"></i>
                                             </button>
 

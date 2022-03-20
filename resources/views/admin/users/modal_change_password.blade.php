@@ -1,4 +1,4 @@
-<div class="modal fade" id="modal-tag-rename">
+<div class="modal fade" id="modal-user-new-password">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -9,17 +9,19 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="tag-rename-input">Новое имя</label>
-                    <input type="text" name="name" class="form-control" id="tag-rename-input">
+                    <label for="tag-rename-input">Новый пароль</label>
+                    <input type="password" name="password" class="form-control">
                     <input type="hidden" name="id">
-                    <input type="hidden" name="ajax-rename-url" value="{{ $ajax['rename_tag'] }}">
-                    <input type="hidden" name="ajax-delete-url" value="{{ $ajax['delete_tag'] }}">
-                    <input type="hidden" name="ajax-new-url" value="{{ $ajax['new_tag'] }}">
+                    <input type="hidden" name="ajax-change-password-url" value="{{ $ajax['change_password_url'] }}">
+                </div>
+                <div class="form-group">
+                    <label for="tag-rename-input">Повторите пароль</label>
+                    <input type="password" name="password_confirmation" class="form-control">
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Отменить</button>
-                <button type="button" onclick="modalNewTag()" class="btn btn-primary">Создать</button>
+                <button type="button" onclick="modalNewUserPassword()" class="btn btn-primary">Создать</button>
             </div>
         </div>
         <!-- /.modal-content -->

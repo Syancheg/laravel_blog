@@ -6,8 +6,6 @@
     <div class="container-fluid">
         <div class="col-4 mb-3">
             <a href="{{ route('admin.post.create') }}" class="btn bg-gradient-success"><i class="fas fa-plus"></i></a>
-            <button type="button" class="btn bg-gradient-primary"><i class="fas fa-copy"></i></button>
-            <button type="button" class="btn bg-gradient-danger"><i class="fas fa-trash-alt"></i></button>
         </div>
         <div class="col-12">
             @if(count($data['posts']) > 0)

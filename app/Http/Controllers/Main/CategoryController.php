@@ -8,8 +8,6 @@ use App\Http\Controllers\Main\Common\MainMenuController;
 use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
-use const App\Helpers\CATEGORY_SCRIPTS;
-use const App\Helpers\CATEGORY_STYLES;
 
 class CategoryController extends Controller
 {
@@ -20,8 +18,8 @@ class CategoryController extends Controller
         $this->staticData = [
             'layout' => [
             'main_menu' => MainMenuController::getMenu(),
-            'styles' => CATEGORY_STYLES,
-            'scripts' => CATEGORY_SCRIPTS
+            'styles' => ConstantHelper::CATEGORY_STYLES,
+            'scripts' => ConstantHelper::CATEGORY_SCRIPTS
             ],
             'categories' => Category::all()
         ];

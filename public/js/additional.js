@@ -1,24 +1,61 @@
 
 const MAX_FILE_SIZE = 1966080;
+var Toast;
 
 $(document).ready(()  => {
+    showError();
     $('.tag-item').on('click', (event) => {
         changeTags(event.target)
     })
     $('.hover-image-block').mouseenter((event) => {
-        hoverImageBlockOn(event)
+        hoverImageBlockOn(event.currentTarget)
     })
-    $('.hover-image-block').mouseleave((event) => {
-        hoverImageBlockOff(event)
+    $('.hover-image-block').mouseleave(() => {
+        hoverImageBlockOff()
     })
 })
 
-function hoverImageBlockOn(event){
-    let $block = $(event.currentTarget);
-    $block.append(getChangeHtmlBlock($block.attr('data-type'), $block.attr('data-id')));
+function showError(){
+    Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000
+    });
 }
 
-function hoverImageBlockOff(event){
+function alertSuccess(title) {
+    Toast.fire({
+        icon: 'success',
+        title: title
+    })
+}
+
+function alertError(json) {
+    let title = '';
+    if(json.errors) {
+        let errors = json.errors;
+        let keys = Object.keys(errors);
+        for (error of keys) {
+            title += ` ${errors[error]} <br>`
+        }
+    } else {
+        title += json.message
+    }
+    Toast.fire({
+        icon: 'error',
+        title: title
+    })
+}
+
+function hoverImageBlockOn(block){
+    let $block = $(block);
+    if(!$block.hasClass('no_editable')) {
+        $block.append(getChangeHtmlBlock($block.attr('data-type'), $block.attr('data-id')));
+    }
+}
+
+function hoverImageBlockOff(){
     $('#post-image-change').remove();
 }
 
@@ -431,10 +468,9 @@ function modalRenameTag() {
     let name = modal.find('[name="name"]').val();
     let url = modal.find('[name="ajax-rename-url"]').val();
     url = `${url}/${id}`;
-    postRequest(url, { name: name}).then( result => {
+    postRequest(url, { title: name}).then( result => {
         if(result){
             updateTagName(result);
-            modal.find('[name="name"]').val('')
             modal.modal('hide');
         }  else {
             alert('Что то не так');
@@ -450,11 +486,52 @@ function updateTagName(tag) {
     $('#tag-item-' + tag.id).find('div.tag-item__title').text(tag.title)
 }
 
+function addNewTagOnGrid(tag) {
+    let html = `<div id="tag-item-${tag.id}" class="main-tags-page-item bg-primary">`;
+    html += `<div class="tag-item__title">${tag.title}</div>`;
+    html += `<div class="tag-item__edit-block">`;
+    html += `<button type="button" onclick="openModalTagRename(${tag.id})" class="tag-item__edit btn-left tag-btn bg-gradient-success">`;
+    html += `<i class="fa fa-pencil"></i></button>`;
+    html += `<button type="button" onclick="deleteTag(${tag.id})" class="tag-item__delete btn-right tag-btn bg-gradient-danger">`;
+    html += `<i class="fa fa-trash"></i></button>`;
+    html += `</div>`;
+    html += `</div>`;
+    $('#main-tags-block').prepend(html);
+}
+
+function modalNewTag() {
+    let modal = $('#modal-tag-rename');
+    let name = modal.find('[name="name"]').val();
+    let url = modal.find('[name="ajax-new-url"]').val();
+    postRequest(url, {title: name}).then( result => {
+        console.log(result);
+        if(result) {
+            addNewTagOnGrid(result);
+            modal.modal('hide');
+        } else {
+            alert('Что то не так');
+        }
+    }).catch( error => {
+        alert('Не удалось создать тег');
+        console.log(error);
+    })
+}
+
 function openModalTagRename(id) {
     let tagName = $.trim($('#tag-item-' + id).find('div.tag-item__title').text());
     let modal = $('#modal-tag-rename');
-    modal.find('.add-header').text(tagName);
+    modal.find('.modal-title').text(`Переименовать тег "${tagName}"`);
     modal.find('[name="id"]').val(id);
+    modal.find('[name="name"]').val('');
+    $(modal.find('.modal-footer').find('button')[1]).attr('onclick', 'modalRenameTag()').text('Переименовать');
+    modal.modal('show');
+}
+
+function openModalNewTag() {
+    let modal = $('#modal-tag-rename');
+    modal.find('.modal-title').text(`Новый тег`);
+    modal.find('[name="name"]').val('');
+    $(modal.find('.modal-footer').find('button')[1]).attr('onclick', 'modalNewTag()').text('Сохранить');
     modal.modal('show');
 }
 
@@ -472,6 +549,98 @@ function deleteTag(id) {
     }).catch( error => {
         console.log(error)
     });
+}
+
+// users
+
+function openModalChangePassword(id) {
+    let modal = $('#modal-user-new-password');
+    modal.find('[name="id"]').val(id);
+    let name = $('#user-' + id).find('[name="name"]').val();
+    let surname = $('#user-' + id).find('[name="surname"]').val();
+    modal.find('.modal-title').text(`Сменить пароль пользователя ${name} ${surname}`);
+    modal.modal('show');
+}
+
+function modalNewUserPassword() {
+    let modal = $('#modal-user-new-password');
+    let id = modal.find('[name="id"]').val()
+    let data = {
+        id: id,
+        password: modal.find('[name="password"]').val(),
+        password_confirmation: modal.find('[name="password_confirmation"]').val(),
+    }
+    let url = $('[name="ajax-change-password-url"]').val();
+    url = `${url}/${id}`;
+    postRequest(url, data).then( () => {
+        modal.modal('hide');
+        Toast.fire({
+            icon: 'success',
+            title: 'Пароль успешно изменен!'
+        })
+        modal.find('[name="id"]').val('');
+        modal.find('[name="password"]').val('');
+        modal.find('[name="password_confirmation"]').val('');
+    }).catch( error => {
+        Toast.fire({
+            icon: 'error',
+            title: error.responseJSON.errors.password[0]
+        })
+    })
+}
+
+function showNewUserBlock() {
+
+}
+
+function hideNewUserBlock() {
+
+}
+
+function allowUserEditing(id, button) {
+    let $button = $(button);
+    $button.removeClass('bg-gradient-primary');
+    $button.addClass('bg-gradient-success');
+    $button.attr('onclick', `editUser(${id}, event.currentTarget)`);
+    let userBlock = $('#user-' + id);
+    userBlock.find('input').attr('disabled', false);
+    userBlock.find('.hover-image-block').removeClass('no_editable');
+}
+
+function editUser(id, button) {
+    let $button = $(button);
+    $button.removeClass('bg-gradient-success');
+    $button.addClass('bg-gradient-primary');
+    $button.attr('onclick', `allowUserEditing(${id}, event.currentTarget)`);
+    let userBlock = $('#user-' + id);
+    userBlock.find('input').attr('disabled', true);
+    userBlock.find('.hover-image-block').addClass('no_editable');
+    let image = userBlock.find('[name="image_id"]').val();
+    let name = userBlock.find('[name="name"]').val();
+    let surname = userBlock.find('[name="surname"]').val();
+    let email = userBlock.find('[name="email"]').val();
+    let data = {
+        image_id: image,
+        name: name,
+        surname: surname,
+        email: email,
+    }
+    let url = $('#user-edit-url').val();
+    url = `${url}/${id}`;
+    postRequest(url, data).then( result => {
+        console.log(result)
+        alertSuccess(result['success']);
+    }).catch( response => {
+        alertError(response.responseJSON);
+    })
+}
+
+function newUser() {
+
+}
+
+function deleteUser(id) {
+
 }
 
 

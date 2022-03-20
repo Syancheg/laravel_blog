@@ -11,6 +11,7 @@
             @csrf
             @method('PATCH')
             <div class="card-body">
+                <input type="hidden" id="filemanage-ajax" value="{{ route('admin.filemanager.get') }}">
                 <div class="form-group">
                     <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
                         <input type="checkbox" @if($data['category']->active) checked @endif name="active" class="custom-control-input" id="active-switch">
@@ -119,6 +120,7 @@
             </div>
         </form>
     </div><!-- /.container-fluid -->
+    @include('admin.include.filemanager')
 </section>
 <!-- /.content -->
 @endsection

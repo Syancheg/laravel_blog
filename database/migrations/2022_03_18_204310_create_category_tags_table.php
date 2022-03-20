@@ -24,8 +24,8 @@ class CreateCategoryTagsTable extends Migration
             $table->index('tag_id', 'category_tag_tag_idx');
 
             // foreign key
-            $table->foreign('category_id', 'category_tag_category_fk')->on('categories')->references('id');
-            $table->foreign('tag_id', 'category_tag_tag_fk')->on('tags')->references('id');
+            $table->foreign('category_id', 'category_tag_category_fk')->on('categories')->references('id')->onDelete('cascade');
+            $table->foreign('tag_id', 'category_tag_tag_fk')->on('tags')->references('id')->onDelete('cascade');
         });
     }
 

@@ -9,7 +9,7 @@
             <form action="{{ route('admin.category.delete', $data['category']->id) }}" method="POST">
                 @csrf
                 @method('DELETE')
-                <button type="submit" class="btn bg-gradient-danger">
+                <button type="submit" @if(count($data['category']->posts)) disabled @endif class="btn bg-gradient-danger">
                     <i class="fas fa-trash-alt"></i>
                 </button>
 

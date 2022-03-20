@@ -50,7 +50,7 @@
                                         @if($post->mainImage)
                                             <!-- Small Card With Image -->
                                             <div class="card card_small_with_image grid-item">
-                                                <img class="card-img-top" src="{{ Storage::url($post->mainImage->path_cache) }}" alt="{{ $post->title }}">
+                                                <img class="card-img-top" src="{{ Storage::url($post->mainImage->path_origin) }}" alt="{{ $post->title }}">
                                                 <div class="card-body">
                                                     <div class="card-title card-title-small"><a
                                                             href="{{ route('detail.post',[$post->category->slug, $post->slug]) }}"

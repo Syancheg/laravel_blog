@@ -16,6 +16,7 @@ class UpdateController extends AdminController
     private $post;
     private $validatedData;
     private $bodyParse;
+    private $deletePostTags = [];
 
     public function __construct()
     {
@@ -34,6 +35,8 @@ class UpdateController extends AdminController
     }
 
     private function savePost() {
+
+//        dd($this->validatedData['tags']);
         if(isset($this->validatedData['tags'])){
             $this->saveTags();
         }
@@ -52,7 +55,13 @@ class UpdateController extends AdminController
         if(is_null($this->validatedData['tags'])){
             return;
         }
+        $oldTegsIds = PostTag::where(['post_id' => $this->post->id])->get('tag_id')->toArray();
+        $oldTegsIds = array_map(function ($item){
+            return (string)$item['tag_id'];
+        },$oldTegsIds);
         $tags = explode('.', $this->validatedData['tags']);
+        $this->deletePostTags = array_diff($oldTegsIds, $tags);
+        $this->deletePostTags();
         foreach ($tags as $tag) {
             $data = [
                 'post_id' => $this->post->id,
@@ -63,11 +72,9 @@ class UpdateController extends AdminController
         unset($this->validatedData['tags']);
     }
 
-    private function removeTags() {
-
-    }
-
-    private function checkTags(){
-
+    private function deletePostTags() {
+        foreach ($this->deletePostTags as $PostTag) {
+            PostTag::where(['post_id' => $this->post->id, 'tag_id' => $PostTag])->delete();
+        }
     }
 }

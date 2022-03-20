@@ -113,6 +113,14 @@ class AdminLeftMenu
                         'pathPrefix' => 'left_menu',
                         'icon' => 'fa-bars',
                         'children' => [],
+                    ],
+                    [
+                        'title' => '',
+                        'status' => false,
+                        'routeName' => 'admin.setting.user',
+                        'pathPrefix' => 'user',
+                        'icon' => 'fa-users',
+                        'children' => [],
                     ]
                 ]
             ]

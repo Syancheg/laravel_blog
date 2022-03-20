@@ -5,7 +5,7 @@
 <section class="content">
     <div class="container-fluid">
         <div class="col-4 mb-3">
-            <button type="button" class="btn bg-gradient-success"><i class="fa fa-plus"></i></button>
+            <button type="button"  onclick="openModalNewTag()" class="btn bg-gradient-success"><i class="fa fa-plus"></i></button>
         </div>
         <div class="col-12">
             @if(count($data['tags']) > 0)

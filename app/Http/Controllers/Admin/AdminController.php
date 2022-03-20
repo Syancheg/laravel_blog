@@ -6,6 +6,7 @@ use App\Helpers\AdminLeftMenu;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use App\Helpers\BreadcrumbsHelper;
 
@@ -34,12 +35,17 @@ class AdminController extends Controller
         ];
     }
 
-    public function getAllTags() {
-        $this->data['tags'] = Tag::all();
+    public function getAllTags($reverse = false) {
+        $sort = $reverse ? 'DESC' : 'ASC';
+        $this->data['tags'] = Tag::orderBy('id', $sort)->get();
     }
 
     public function getAllCategories() {
         $this->data['categories'] =  Category::all();
+    }
+
+    public function getAllUsers() {
+        $this->data['users'] = User::all();
     }
 
 

@@ -14,6 +14,7 @@ class UpdateController extends AdminController
     private $category;
     private $validatedData;
     private $bodyParse;
+    private $deleteCategoryTags = [];
 
     public function __construct()
     {
@@ -44,7 +45,13 @@ class UpdateController extends AdminController
         if(is_null($this->validatedData['tags'])){
             return;
         }
+        $oldTagsIds = CategoryTag::where(['category_id'=> $this->category->id])->get('tag_id')->toArray();
+        $oldTagsIds = array_map(function ($item){
+            return (string)$item['tag_id'];
+        },$oldTagsIds);
         $tags = explode('.', $this->validatedData['tags']);
+        $this->deleteCategoryTags = array_diff($oldTagsIds, $tags);
+        $this->deleteCategoryTags();
         foreach ($tags as $tag) {
             $data = [
                 'category_id' => $this->category->id,
@@ -59,6 +66,12 @@ class UpdateController extends AdminController
         $this->bodyParse['seo']['type'] = config('constants.seo_category_type');
         $this->bodyParse['seo']['item_id'] = $this->category->id;
         SeoHelper::saveSeo($this->bodyParse['seo']);
+    }
+
+    private function deleteCategoryTags() {
+        foreach ($this->deleteCategoryTags as $tag) {
+            CategoryTag::where(['category_id' => $this->category->id, 'tag_id' => $tag])->delete();
+        }
     }
 
 }
