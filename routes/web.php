@@ -51,6 +51,15 @@ Route::group(['namespace' => 'Admin', 'middleware'=> 'auth', 'prefix' => 'admin'
         });
     });
     Route::group(['prefix' => 'content'], function (){
+        Route::group(['namespace' => 'Common', 'prefix' => 'image-gallary'], function () {
+            Route::get('/', 'GallaryController')->name('admin.gallary.index');
+            Route::post('/', 'GallaryController@storeGallary')->name('admin.gallary.store');
+            Route::get('/create', 'GallaryController@createGallary')->name('admin.gallary.create');
+            Route::get('/{gallary}/edit', 'GallaryController@editGallary')->name('admin.gallary.edit');
+            Route::patch('/{gallary}', 'GallaryController@updateGallary')->name('admin.gallary.update');
+            Route::delete('/{gallary}', 'GallaryController@deleteGallary')->name('admin.gallary.delete');
+            Route::get('/{gallary}/copy', 'GallaryController@copyGallary')->name('admin.gallary.copy');
+        });
         Route::group(['namespace' => 'Category', 'prefix' => 'category'], function(){
             Route::get('/', 'IndexController')->name('admin.category.index');
             Route::get('/create', 'CreateController')->name('admin.category.create');

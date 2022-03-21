@@ -69,7 +69,7 @@ class AdminLeftMenu
                         'status' => false,
                         'routeName' => 'admin.post.index',
                         'pathPrefix' => 'post',
-                        'icon' => 'fa-circle',
+                        'icon' => 'fa-newspaper',
                         'children' => [],
                     ],
                     [
@@ -77,7 +77,7 @@ class AdminLeftMenu
                         'status' => false,
                         'routeName' => 'admin.category.index',
                         'pathPrefix' => 'category',
-                        'icon' => 'fa-circle',
+                        'icon' => 'fa-folder-open',
                         'children' => [],
                     ],
                     [
@@ -85,7 +85,7 @@ class AdminLeftMenu
                         'status' => false,
                         'routeName' => 'admin.tag.index',
                         'pathPrefix' => 'tag',
-                        'icon' => 'fa-circle',
+                        'icon' => 'fa-tags',
                         'children' => [],
                     ],
                     [
@@ -93,7 +93,15 @@ class AdminLeftMenu
                         'status' => false,
                         'routeName' => 'admin.banner.index',
                         'pathPrefix' => 'banner',
-                        'icon' => 'fa-circle',
+                        'icon' => 'fa-image',
+                        'children' => [],
+                    ],
+                    [
+                        'title' => '',
+                        'status' => false,
+                        'routeName' => 'admin.gallary.index',
+                        'pathPrefix' => 'gallary',
+                        'icon' => 'fa-images',
                         'children' => [],
                     ]
 

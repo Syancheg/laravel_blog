@@ -56,11 +56,11 @@ function hoverImageBlockOn(block){
 }
 
 function hoverImageBlockOff(){
-    $('#post-image-change').remove();
+    $('#image-change').remove();
 }
 
 function getChangeHtmlBlock(type, id) {
-    return '<div id="post-image-change">\n' +
+    return '<div id="image-change">\n' +
         '                            <button type="button" class="btn btn-success" onclick="openFilemanager(\''+ type +'\', ' + id + ')">\n' +
         '                                <i class="fa fa-pen"></i>\n' +
         '                            </button>\n' +
@@ -113,7 +113,7 @@ function changeTags(target) {
     $('#tags-input').val(curTags);
 }
 
-function openFilemanager(type, id) {
+function openFilemanager(type, id = 0) {
     let count = $('#' + type).attr('data-count');
     $('#count-image').val(count);
     $('#image-id').val(id);
@@ -129,7 +129,6 @@ function openFilemanager(type, id) {
         data.page = page
     }
     loadData(data)
-
 }
 
 function addFileListener() {
@@ -302,18 +301,18 @@ function filemanagerCreateDir() {
 
 }
 function filemanagerDelete() {
-    if(!confirm("Вы лействительно хотите удалить  файлы?")) {
+    if(!confirm("Вы лействительно хотите удалить файлы?")) {
         return;
     }
     let items = {
-        files: {}
+        files: []
     };
     $('#modal-filemanager input:checkbox:checked').each((i, item) => {
         let block = $('div [data-id="' + $(item).val() + '"]');
-        items['files'][i] = {
+        items.files.push({
             url: block.attr('data-link'),
             id: block.attr('data-id')
-        }
+        })
     });
     if(Object.keys(items).length > 0) {
         let url = getDeleteUrl();
@@ -329,31 +328,73 @@ function filemanagerDelete() {
     }
 }
 function filemanagerChangeItem() {
-    let items = [];
+    let items = {
+        images: []
+    };
     $('#modal-filemanager input:checkbox:checked').each((i, item) => {
         let block = $('div [data-id="' + $(item).val() + '"]');
-        items.push({
-            id: block.find('img').attr('data-id'),
-            link: block.find('img').attr('src'),
-            type: block.attr('data-type')
-        })
+        if(block.attr('data-type') === 'image') {
+            items['images'].push({
+                id: block.find('img').attr('data-id'),
+                link: block.find('img').attr('src'),
+                type: block.attr('data-type')
+            })
+        }
     });
-    filemanagerAddImages(items);
+    if(Object.keys(items['images']).length > 0) {
+        let settings = getImagesSettingForFilemanager();
+        if(settings.count === 1) {
+            filemanagerAddImage(items['images'][0]);
+        } else {
+            filemanagerAddImages(items['images'])
+        }
+    }
+
 }
 
-function filemanagerAddImages(items){
+function filemanagerAddImages(items) {
     let settings = getImagesSettingForFilemanager();
+    $('#modal-filemanager').modal('hide');
     for (let i = 0; i < items.length; i++) {
-        if((i < settings.count) && (items[i].type === 'image')) {
-            let block = $('div.hover-image-block[data-id="' + settings.id + '"][data-type="' + settings.type + '"]');
-            if(block.length > 0){
-                $(block[0]).attr('data-id', items[i].id);
-                $(block[0]).find('img').attr('src', items[i].link);
-                $(block[0]).find('input').val(items[i].id);
+        if((i < settings.count)) {
+            let oldValues = $(`div.gallary-block.gallary[data-id="${items[i].id}"]`)
+            if(oldValues.length === 0) {
+                let block = $('div#gallary-images').prepend(getGallaryItemHtmlTemplate(items[i]));
             }
         }
     }
+}
+
+function filemanagerAddImage(item){
+    let settings = getImagesSettingForFilemanager();
     $('#modal-filemanager').modal('hide');
+    let block = $('div.hover-image-block[data-id="' + settings.id + '"][data-type="' + settings.type + '"]');
+    if(block.length > 0){
+        $(block[0]).attr('data-id', item.id);
+        $(block[0]).find('img').attr('src', item.link);
+        $(block[0]).find('input').val(item.id);
+    }
+}
+
+function getGallaryItemHtmlTemplate(item) {
+    let html = `<div class="gallary-block gallary" data-type="${item.type}" data-id="${item.id}">`;
+    html += `<img class="image" src="${item.link}">`
+    html += `<input type="hidden" id="gallary-image-${item.id}" name="images[]" class="gallary-input" value="${item.id}">`;
+    html += `<div>`;
+    html += `<div class="custom-control custom-checkbox">`;
+    html += `<input class="custom-control-input" type="checkbox" id="gallary-checkbox-image-${item.id}" value="${item.id}">`;
+    html += `<label for="gallary-checkbox-image-${item.id}" class="custom-control-label">Выбрать</label>`;
+    html += `</div>`;
+    html += `</div>`;
+    html += `</div>`;
+    return html;
+}
+
+function deleteGallaryItem() {
+    $('#gallary-images-section input:checkbox:checked').each((i, item) => {
+        let id = $(item).val();
+        $(`div.gallary-block.gallary[data-id="${id}"]`).first().remove();
+    });
 }
 
 function filemanagerPageTo(page){
@@ -445,8 +486,8 @@ function getFilemanagegUrl(){
 }
 function getImagesSettingForFilemanager() {
     return {
-        id: $('#image-id').val(),
-        count: $('#count-image').val(),
+        id: parseInt($('#image-id').val()),
+        count: parseInt($('#count-image').val()),
         type: $('#image-type').val()
     }
 }
