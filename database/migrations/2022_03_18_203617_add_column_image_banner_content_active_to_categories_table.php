@@ -16,7 +16,7 @@ class AddColumnImageBannerContentActiveToCategoriesTable extends Migration
         Schema::table('categories', function (Blueprint $table) {
             $table->bigInteger('image')->nullable()->after('title');
             $table->bigInteger('banner')->nullable()->after('image');
-            $table->text('content')->nullable()->after('banner');
+            $table->longText('content')->nullable()->after('banner');
             $table->boolean('active')->default(false)->after('slug');
         });
     }

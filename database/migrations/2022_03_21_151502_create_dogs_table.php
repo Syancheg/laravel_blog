@@ -16,9 +16,11 @@ class CreateDogsTable extends Migration
         Schema::create('dogs', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100);
-            $table->text('text');
+            $table->boolean('gender');
+            $table->longText('text')->nullable();
             $table->bigInteger('image')->nullable();
-            $table->date('birthday')->nullable();
+            $table->date('birthday');
+            $table->boolean('active');
             $table->timestamps();
         });
     }

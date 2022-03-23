@@ -236,6 +236,14 @@
     border-radius: 5px;
 }
 
+.achievements-item {
+    position: relative;
+}
+.achievement-delete-button {
+    position: absolute;
+    top: 25px;
+    right: 15px
+}
 
 
 

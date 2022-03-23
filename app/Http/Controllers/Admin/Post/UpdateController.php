@@ -56,12 +56,15 @@ class UpdateController extends AdminController
             return;
         }
         $oldTegsIds = PostTag::where(['post_id' => $this->post->id])->get('tag_id')->toArray();
-        $oldTegsIds = array_map(function ($item){
-            return (string)$item['tag_id'];
-        },$oldTegsIds);
         $tags = explode('.', $this->validatedData['tags']);
-        $this->deletePostTags = array_diff($oldTegsIds, $tags);
-        $this->deletePostTags();
+        if($oldTegsIds){
+            $oldTegsIds = array_map(function ($item){
+                return (string)$item['tag_id'];
+            },$oldTegsIds);
+            $this->deletePostTags = array_diff($oldTegsIds, $tags);
+            $this->deletePostTags();
+        }
+
         foreach ($tags as $tag) {
             $data = [
                 'post_id' => $this->post->id,

@@ -17,13 +17,13 @@ class CreateDogsAchievementsTable extends Migration
             $table->id();
             $table->string('name', 100);
             $table->date('date_receiving')->nullable();
-            $table->bigInteger('dog_id');
+            $table->unsignedBigInteger('dog_id');
 
             //index
             $table->index('dog_id', 'dog_achievements_dog_idx');
 
             // foreign key
-            $table->foreign('dog_id', 'og_achievements_dog_fk')->on('dogs')->references('id');
+            $table->foreign('dog_id', 'dog_achievements_dog_fk')->on('dogs')->references('id');
 
             $table->timestamps();
         });

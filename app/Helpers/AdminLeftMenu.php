@@ -111,6 +111,23 @@ class AdminLeftMenu
                 'title' => '',
                 'status' => false,
                 'routeName' => '',
+                'pathPrefix' => 'entity',
+                'icon' => 'fa-list',
+                'children' => [
+                    [
+                        'title' => '',
+                        'status' => false,
+                        'routeName' => 'admin.entity.dog.index',
+                        'pathPrefix' => 'dog',
+                        'icon' => 'fa-dog',
+                        'children' => [],
+                    ]
+                ]
+            ],
+            [
+                'title' => '',
+                'status' => false,
+                'routeName' => '',
                 'pathPrefix' => 'setting',
                 'icon' => 'fa-gears',
                 'children' => [

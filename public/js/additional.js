@@ -684,5 +684,36 @@ function deleteUser(id) {
 
 }
 
+function deleteAchievements(block) {
+    $(block).parent('div').remove();
+}
+
+function addAchievements() {
+    let modal = $('#modal-achievements');
+    let count = parseInt($('#achievements-block').attr('data-last'));
+    let name = modal.find('[name="name"]').val();
+    if(name.length < 3){
+        modal.find('[name="name"]').after(`<div class="text-danger">Название должно содержать минимум 3 символа</div>`);
+        return;
+    }
+    let date = modal.find('[name="date"]').val();
+    let template = document.getElementById('achievements');
+    let clone = template.content.cloneNode(true);
+    clone.querySelectorAll('.achievements-item')[0].setAttribute('id', `achievements-item-${count}`);
+    let boxContent = clone.querySelectorAll('.info-box-content')[0];
+    boxContent.querySelectorAll('.info-box-text')[0].innerText = name;
+    boxContent.querySelectorAll('.info-box-number')[0].innerText = date.split('-').reverse().join('.');
+    boxContent.querySelectorAll('.achievements-date')[0].value = date;
+    boxContent.querySelectorAll('.achievements-date')[0].setAttribute('name', `achievements[${count}][date]`);
+    boxContent.querySelectorAll('.achievements-name')[0].value = name;
+    boxContent.querySelectorAll('.achievements-name')[0].setAttribute('name', `achievements[${count}][name]`);
+    document.getElementById('achievements-block').appendChild(clone);
+    count++;
+    $('#achievements-block').attr('data-last', count)
+    modal.find(':input').val('');
+    modal.find('.text-danger').remove();
+    modal.modal('hide');
+}
+
 
 

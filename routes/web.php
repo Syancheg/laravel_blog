@@ -50,6 +50,17 @@ Route::group(['namespace' => 'Admin', 'middleware'=> 'auth', 'prefix' => 'admin'
             Route::post('/ajax/edit/{user?}', 'UpdateController@editUser')->name('admin.setting.user.edit');
         });
     });
+    Route::group(['namespace' => 'Entity', 'prefix' => 'entity'], function() {
+        Route::group(['namespace' => 'Dog', 'prefix' => 'dog'], function() {
+            Route::get('/', 'IndexController')->name('admin.entity.dog.index');
+            Route::get('/create', 'CreateController')->name('admin.entity.dog.create');
+            Route::post('/', 'StoreController')->name('admin.entity.dog.store');
+            Route::get('/{dog}', 'ShowController')->name('admin.entity.dog.show');
+            Route::get('/{dog}/edit', 'EditController')->name('admin.entity.dog.edit');
+            Route::patch('/{dog}', 'UpdateController')->name('admin.entity.dog.update');
+            Route::delete('/{dog}', 'DeleteController')->name('admin.entity.dog.delete');
+        });
+    });
     Route::group(['prefix' => 'content'], function (){
         Route::group(['namespace' => 'Common', 'prefix' => 'image-gallary'], function () {
             Route::get('/', 'GallaryController')->name('admin.gallary.index');
