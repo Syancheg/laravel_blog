@@ -4,11 +4,7 @@
         <div class="media post_item">
             <img
                 class="image top-post-image"
-                @if($post->main_image)
-                src="{{ Storage::url($post->mainImage->path_origin) }}"
-                @else
-                src="{{ Storage::url('public/noimg.png') }}"
-                @endif
+                src="{{ Storage::url($post->image_path) }}"
                 alt="{{ $post->title }}"
             >
             <div class="media-body">

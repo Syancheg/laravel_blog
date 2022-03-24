@@ -4,11 +4,7 @@
         <div class="blog_item_img">
             <img
                 class="card-img rounded-0 post-image image"
-                @if($post->main_image)
-                src="{{ Storage::url($post->mainImage->path_origin) }}"
-                @else
-                src="{{ Storage::url('public/noimg.png') }}"
-                @endif
+                src="{{ Storage::url($post->image_path) }}"
                 alt="{{ $post->title }}"
             >
             <a href="#" class="blog_item_date">

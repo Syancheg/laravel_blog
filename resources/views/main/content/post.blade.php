@@ -1,7 +1,7 @@
 @extends('main.layouts.main', ['data' => $data['layout']])
 
 @section('content')
-    @include('main.includes.breadcrums')
+    @include('main.includes.breadcrums', ['breadcrumbs' => $data['breadcrumbs']])
     <!--================Blog Area =================-->
     <section class="blog_area single-post-area section-padding">
         <div class="container">
@@ -11,11 +11,7 @@
                         <div class="feature-img">
                             <img
                                 class="img-fluid"
-                                @if($data['post']->main_image)
-                                src="{{ Storage::url($data['post']->mainImage->path_origin) }}"
-                                @else
-                                src="{{ Storage::url('public/noimg.png') }}"
-                                @endif
+                                src="{{ Storage::url($data['post']->image_path) }}"
                                 alt="{{ $data['post']->title }}"
                             >
                         </div>
@@ -28,7 +24,7 @@
                                 <li><a href="#"><i class="fa fa-eye"></i> {{ $data['post']->views }}</a></li>
                             </ul>
                             <div class="content">
-                                {{ $data['post']->content }}
+                                {!! $data['post']->content !!}
                             </div>
                         </div>
                     </div>
@@ -56,11 +52,7 @@
                                                 <a href="{{ route('public.content.post', [$data['additional_posts']['prev']->category->slug, $data['additional_posts']['prev']->slug]) }}">
                                                     <img
                                                         class="img-fluid post-additional-block"
-                                                        @if($data['additional_posts']['prev']->main_image)
-                                                        src="{{ Storage::url($data['additional_posts']['prev']->mainImage->path_origin) }}"
-                                                        @else
-                                                        src="{{ Storage::url('public/noimg.png') }}"
-                                                        @endif
+                                                        src="{{ Storage::url($data['additional_posts']['prev']->image_path) }}"
                                                         alt="{{ $data['additional_posts']['prev']->title }}"
                                                     >
                                                 </a>
@@ -96,11 +88,7 @@
                                                 <a href="{{ route('public.content.post', [$data['additional_posts']['next']->category->slug, $data['additional_posts']['next']->slug]) }}">
                                                     <img
                                                         class="img-fluid"
-                                                        @if($data['additional_posts']['next']->main_image)
-                                                        src="{{ Storage::url($data['additional_posts']['next']->mainImage->path_origin) }}"
-                                                        @else
-                                                        src="{{ Storage::url('public/noimg.png') }}"
-                                                        @endif
+                                                        src="{{ Storage::url($data['additional_posts']['next']->image_path) }}"
                                                         alt="{{ $data['additional_posts']['next']->title }}"
                                                     >
                                                 </a>

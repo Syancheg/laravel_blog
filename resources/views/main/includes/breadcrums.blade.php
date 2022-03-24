@@ -4,7 +4,21 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="bradcam_text text-center">
-                    <h3>Blog</h3>
+                    @foreach($breadcrumbs as $index => $breadcrumb)
+                        @if($index !== count($breadcrumbs) - 1)
+                            @if($breadcrumb['href'])
+                                <a href="{{ $breadcrumb['href'] }}" title="{{ $breadcrumb['title'] }}">
+                                    {{ $breadcrumb['title'] }}
+                                </a>/
+                            @else
+                                {{ $breadcrumb['title'] }}/
+                            @endif
+                        @else
+                                <h3>
+                                    {{ $breadcrumb['title'] }}
+                                </h3>
+                        @endif
+                    @endforeach
                 </div>
             </div>
         </div>

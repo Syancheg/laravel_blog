@@ -14,3 +14,12 @@
     max-width: 70px;
 }
 
+.feature-img {
+    display: flex;
+    justify-content: center;
+}
+.bradcam_text, .bradcam_text a {
+    color: white;
+}
+
+

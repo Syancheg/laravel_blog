@@ -1,7 +1,7 @@
 @extends('main.layouts.main', ['data' => $data['layout']])
 
 @section('content')
-    @include('main.includes.breadcrums')
+    @include('main.includes.breadcrums', ['breadcrumbs' => $data['breadcrumbs']])
     <!--================Blog Area =================-->
     <section class="blog_area section-padding">
         <div class="container">
