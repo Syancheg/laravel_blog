@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\Entity\Dog\UpdateRequest;
 use App\Models\Dog;
 use App\Models\DogAchievements;
 use App\Models\DogDog;
+use App\Models\EntityGallary;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
@@ -25,11 +26,12 @@ class UpdateController extends AdminController
 
         $this->validated = $request->validated();
         $this->validated['active'] = isset($this->validated['active']);
+//        dd($this->validated);
         $this->dog = $dog;
         $this->saveFather();
         $this->saveMother();
         $this->saveAchievements();
-//        dd($this->validated);
+        $this->saveGallaries();
         $this->saveDog();
         return redirect()->route('admin.entity.dog.index');
     }
@@ -52,6 +54,10 @@ class UpdateController extends AdminController
                 'children_id' => $this->dog->id
             ];
             DogDog::firstOrCreate($data);
+        } else {
+            if(!is_null($this->dog->father_id)) {
+                $this->deleteParent($this->dog->father_id);
+            }
         }
         unset($this->validated['father']);
     }
@@ -70,6 +76,10 @@ class UpdateController extends AdminController
                 'children_id' => $this->dog->id
             ];
             DogDog::firstOrCreate($data);
+        } else {
+            if(!is_null($this->dog->mother_id)) {
+                $this->deleteParent($this->dog->mother_id);
+            }
         }
         unset($this->validated['mother']);
     }
@@ -82,12 +92,12 @@ class UpdateController extends AdminController
                 $oldAchievements = array_map(function ($item){
                     return (string)$item['id'];
                 },$oldAchievements);
+                $newAchievements = array_filter($this->validated['achievements'], function ($item) {
+                    return isset($item['id']);
+                });
                 $newAchievements = array_map(function ($item){
-                    if(isset($item['id'])) {
-                        return (string)$item['id'];
-                    }
-
-                },$this->validated['achievements']);
+                    return (string)$item['id'];
+                },$newAchievements);
                 $deleteAchievements = array_diff($oldAchievements, $newAchievements);
                 $this->deleteOldAchievements($deleteAchievements);
             }
@@ -105,9 +115,48 @@ class UpdateController extends AdminController
         unset($this->validated['achievements']);
     }
 
+    private function saveGallaries() {
+        if (isset($this->validated['gallaries'])) {
+            $oldGallaries = EntityGallary
+                ::where(['entity_id' => $this->dog->id, 'type' => config('constants.dogs_type')])
+                ->get('gallary_id')
+                ->toArray();
+            if($oldGallaries) {
+                $oldGallaries = array_map(function($item) {
+                    return (string)$item['gallary_id'];
+                }, $oldGallaries);
+                $deleteGallaries = array_diff($oldGallaries, $this->validated['gallaries']);
+                $this->deleteOldGallaries($deleteGallaries);
+            }
+            foreach ($this->validated['gallaries'] as $gallary) {
+                $data = [
+                    'entity_id' => $this->dog->id,
+                    'gallary_id' => $gallary,
+                    'type' => config('constants.dogs_type')
+                ];
+                EntityGallary::firstOrCreate($data);
+            }
+        } else {
+            EntityGallary
+                ::where(['entity_id' => $this->dog->id, 'type' => config('constants.dogs_type')])
+                ->delete();
+        }
+        unset($this->validated['gallaries']);
+    }
+
     private function deleteOldAchievements($ids) {
         foreach ($ids as $id) {
             DogAchievements::where(['id' => $id])->delete();
+        }
+    }
+
+    private function deleteOldGallaries($ids) {
+        foreach ($ids as $id) {
+            EntityGallary::where([
+                'entity_id' => $this->dog->id,
+                'gallary_id' => $id,
+                'type' => config('constants.dogs_type')
+            ])->delete();
         }
     }
 
@@ -137,6 +186,10 @@ class UpdateController extends AdminController
             }
         }
         return false;
+    }
+
+    private function deleteParent($id) {
+        DogDog::where(['parent_id' => $id, 'children_id' => $this->dog->id])->delete();
     }
 
 }

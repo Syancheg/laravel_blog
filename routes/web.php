@@ -14,16 +14,27 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['namespace' => 'Main'], function(){
-    Route::get('/', 'IndexController')->name('top-menu.main');
-    Route::get('/categories', 'CategoryController')->name('top-menu.categories');
-    Route::get('/contact', 'ContactController')->name('top-menu.contact');
-    Route::get('/categories/{category:slug}', 'CategoryController@getCategory')
-        ->where('category:slug', '^((https?|ftp)\:\/\/)?([a-z0-9]{1})((\.[a-z0-9-])|([a-z0-9-]))*\.([a-z]{2,6})(\/?)$')
-        ->name('detail.category');
-    Route::get('/categories/{category:slug}/posts/{post:slug}', 'PostController')
-        ->where('category:slug', '^((https?|ftp)\:\/\/)?([a-z0-9]{1})((\.[a-z0-9-])|([a-z0-9-]))*\.([a-z]{2,6})(\/?)$')
-        ->where('post:slug', '^((https?|ftp)\:\/\/)?([a-z0-9]{1})((\.[a-z0-9-])|([a-z0-9-]))*\.([a-z]{2,6})(\/?)$')
-        ->name('detail.post');
+    Route::group(['namespace' => 'Home'], function() {
+        Route::get('/', 'IndexController')->name('public.home.index');
+        Route::get('/contact', 'ContactController')->name('public.home.contact');
+    });
+    Route::group(['namespace' => 'Content'], function() {
+        Route::get('/blog', 'BlogController')->name('public.content.blog');
+        Route::get('/blog/{category:slug}', 'BlogController')->name('public.content.category');
+        Route::get('/blog/{category:slug}/{post:slug}', 'PostController')->name('public.content.post');
+        Route::get('/all-dogs', 'DogsController')->name('public.content.dogs');
+        Route::get('/all-dogs/{dog:slug}', 'DogController')->name('public.content.dog');
+    });
+
+//    Route::get('/categories', 'CategoryController')->name('top-menu.categories');
+//    Route::get('/contact', 'ContactController')->name('top-menu.contact');
+//    Route::get('/categories/{category:slug}', 'CategoryController@getCategory')
+//        ->where('category:slug', '^((https?|ftp)\:\/\/)?([a-z0-9]{1})((\.[a-z0-9-])|([a-z0-9-]))*\.([a-z]{2,6})(\/?)$')
+//        ->name('detail.category');
+//    Route::get('/categories/{category:slug}/posts/{post:slug}', 'PostController')
+//        ->where('category:slug', '^((https?|ftp)\:\/\/)?([a-z0-9]{1})((\.[a-z0-9-])|([a-z0-9-]))*\.([a-z]{2,6})(\/?)$')
+//        ->where('post:slug', '^((https?|ftp)\:\/\/)?([a-z0-9]{1})((\.[a-z0-9-])|([a-z0-9-]))*\.([a-z]{2,6})(\/?)$')
+//        ->name('detail.post');
 });
 
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout')->name('logout');
@@ -115,4 +126,3 @@ Route::group(['namespace' => 'Admin', 'middleware'=> 'auth', 'prefix' => 'admin'
 });
 
 Auth::routes();
-

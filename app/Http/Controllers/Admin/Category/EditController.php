@@ -25,7 +25,7 @@ class EditController extends AdminController
     }
 
     private function getSeo($categoryId) {
-        $this->data['seo'] = SeoDescription::where(['type' => config('constants.seo_category_type'), 'item_id' => $categoryId])->first();
+        $this->data['seo'] = SeoDescription::where(['type' => config('constants.category_type'), 'item_id' => $categoryId])->first();
     }
 
     private function getParseTags() {

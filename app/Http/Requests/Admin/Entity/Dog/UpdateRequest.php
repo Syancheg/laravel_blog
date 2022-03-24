@@ -35,6 +35,8 @@ class UpdateRequest extends FormRequest
             'achievements' => 'nullable|array',
             'achievements.date' => 'nullable|date|date_format:"Y-m-d"',
             'achievements.name' => 'nullable|string|max:255',
+            'gallaries' => 'nullable|array',
+            'gallaries.*' => 'nullable|integer',
         ];
     }
 }

@@ -24,8 +24,8 @@ class CreateDogDogsTable extends Migration
             $table->index('children_id', 'parent_dog_children_dog_children_dog_idx');
 
             // foreign key
-            $table->foreign('parent_id', 'parent_dog_children_dog_parend_dog_fk')->on('dogs')->references('id');
-            $table->foreign('children_id', 'parent_dog_children_dog_children_dog_fk')->on('dogs')->references('id');
+            $table->foreign('parent_id', 'parent_dog_children_dog_parend_dog_fk')->on('dogs')->references('id')->onDelete('cascade');
+            $table->foreign('children_id', 'parent_dog_children_dog_children_dog_fk')->on('dogs')->references('id')->onDelete('cascade');
         });
     }
 

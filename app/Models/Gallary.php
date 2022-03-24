@@ -11,6 +11,11 @@ class Gallary extends Model
 
     protected $table = 'image_gallary';
     protected $guarded = false;
+    protected $appends = [
+        'format_date',
+        'images_src',
+        ];
+
 
     public function images()
     {
@@ -20,5 +25,26 @@ class Gallary extends Model
     public function mainImage()
     {
         return $this->hasOne(File::class, 'id', 'image');
+    }
+
+    public function getFormatDateAttribute() {
+        $date = $this->updated_at;
+        if(!is_null($date)) {
+            $date = substr($date, 0, strpos($date, ' '));
+            $date = explode('-', $date);
+            $date = array_reverse($date);
+            $date = implode('.', $date);
+        }
+        return $date;
+    }
+
+    public function getImagesSrcAttribute() {
+        $imageArr = [];
+        $gallaryFiles = $this->images;
+        foreach ($gallaryFiles as $gallaryFile) {
+            $file = File::find($gallaryFile->file_id);
+            $imageArr[] = $file->path_origin;
+        }
+        return $imageArr;
     }
 }

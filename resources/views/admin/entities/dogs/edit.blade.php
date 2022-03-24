@@ -5,7 +5,7 @@
     <section class="content">
         <div class="container-fluid">
             <div>
-                <a href="{{ route('admin.entity.dog.index') }}" class="btn btn-default">назад</a>
+                <a href="{{ url()->previous() }}" class="btn btn-default">назад</a>
             </div>
             <form action="{{ route('admin.entity.dog.update', $data['dog']->id) }}" method="post">
                 @csrf
@@ -83,7 +83,7 @@
                                 <select class="custom-select rounded-5" id="father-select" name="father">
                                     <option value=""></option>
                                     @foreach($data['dogs_male'] as $dog)
-                                            @if(isset($data['dog']->father_id) && $data['dog']->father_id === $dog->id)
+                                            @if($data['dog']->father_id === $dog->id)
                                                 <option selected value="{{ $dog->id }}">{{ $dog->name }}</option>
                                             @else
                                                 <option value="{{ $dog->id }}">{{ $dog->name }}</option>
@@ -96,7 +96,7 @@
                                 <select class="custom-select rounded-5" id="mather-select" name="mother">
                                     <option value=""></option>
                                     @foreach($data['dogs_female'] as $dog)
-                                        @if(isset($data['dog']->mother_id) && $data['dog']->mother_id === $dog->id)
+                                        @if($data['dog']->mother_id === $dog->id)
                                             <option selected value="{{ $dog->id }}">{{ $dog->name }}</option>
                                         @else
                                             <option value="{{ $dog->id }}">{{ $dog->name }}</option>
@@ -117,46 +117,112 @@
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="form-group">
-                                <label for="dog_main_image">Фото</label>
-                                <div class="post-main-image" id="dog_main_image" data-count="1">
-                                    <div class="hover-image-block" data-type="dog_main_image" data-id="0">
-                                        @if($data['dog']->image)
-                                            <img src="{{ Storage::url($data['dog']->mainImage->path_origin) }}">
-                                        @else
-                                            <img src="{{ Storage::url('public/noimg.png') }}">
-                                        @endif
-                                        <input type="hidden" id="main_image" name="image" class="main_image-input" value="{{ $data['dog']->image }}">
+                            <div class="col-12 row">
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label for="dog_main_image">Фото</label>
+                                        <div class="post-main-image" id="dog_main_image" data-count="1">
+                                            <div
+                                                class="hover-image-block"
+                                                data-type="dog_main_image"
+                                                @if($data['dog']->image)
+                                                data-id="{{ $data['dog']->image }}"
+                                                @else
+                                                data-id="0"
+                                                @endif
+                                            >
+                                                @if($data['dog']->image)
+                                                    <img src="{{ Storage::url($data['dog']->mainImage->path_origin) }}">
+                                                @else
+                                                    <img src="{{ Storage::url('public/noimg.png') }}">
+                                                @endif
+                                                <input
+                                                    type="hidden"
+                                                    id="main_image"
+                                                    name="image"
+                                                    class="main_image-input"
+                                                    @if($data['dog']->image)
+                                                    value="{{ $data['dog']->image }}"
+                                                    @else
+                                                    value="0"
+                                                    @endif
+                                                >
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-8">
+                                    <div class="form-group">
+                                        <label for="gallaries-select">Галереи</label>
+                                        <select onchange="changeGallary(this.value)" class="custom-select rounded-5" id="gallaries-select">
+                                            <option value=""></option>
+                                            @foreach($data['gallaries'] as $gallary)
+                                                <option
+                                                    @if(in_array($gallary->id, $data['dog']->current_gallaries_id))
+                                                    disabled
+                                                    @endif
+                                                    value="{{ $gallary->id }}"
+                                                    data-count="{{ $gallary->images->count() }}"
+                                                    @if($gallary->image)
+                                                    data-image="{{ $gallary->mainImage->path_origin }}"
+                                                    @else
+                                                    data-image="public/noimg.png"
+                                                    @endif
+                                                >
+                                                    {{ $gallary->name }} - {{ $gallary->images->count() }} фото, {{ $gallary->format_date }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <div id="gallary-block" class="gallary-add-block" data-count="{{ $data['dog']->gallaries->count() }}">
+                                            @foreach($data['dog']->gallaries as $index => $gallary)
+                                                <div class="gallary-item" id="gallary-{{ $gallary->gallary->id }}">
+                                                    @if($gallary->gallary->image)
+                                                        <img class="image" src="{{ Storage::url($gallary->gallary->mainImage->path_origin) }}">
+                                                    @else
+                                                        <img class="image" src="{{ Storage::url('public/noimg.png') }}">
+                                                    @endif
+                                                    <div class="gallary-item-count bg-gradient-success">
+                                                        {{ count($gallary->gallary->images_src) }}
+                                                    </div>
+                                                    <input type="hidden" name="gallaries[{{ $index }}]" value="{{ $gallary->gallary->id }}">
+                                                    <button type="button" onclick="deleteGallary({{ $gallary->gallary->id }})" class="btn btn-delete-gallary bg-gradient-danger">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            @endforeach
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="input-content">Достижения</label>
-                                <div class="achievements-block" id="achievements-block" data-last="{{ $data['dog']->achievments->count() }}">
-                                    @if($data['dog']->achievments->count())
-                                        @foreach($data['dog']->achievments as $index => $achievment)
-                                            <div class="col-12 achievements-item" id="achievements-item-{{ $achievment->id }}">
-                                                <div class="info-box">
-                                                    <span class="info-box-icon bg-warning"><i class="fa fa-trophy"></i></span>
-                                                    <div class="info-box-content">
-                                                        <span class="info-box-text">{{ $achievment->name }}</span>
-                                                        <span class="info-box-number">{{ $achievment->format_date }}</span>
-                                                        <input class="achievements-id" type="hidden" name="achievements[{{ $index }}][id]" value="{{ $achievment->id }}">
-                                                        <input class="achievements-date" type="hidden" name="achievements[{{ $index }}][date]" value="{{ $achievment->date_receiving }}">
-                                                        <input class="achievements-name" type="hidden" name="achievements[{{ $index }}][name]" value="{{ $achievment->name }}">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="input-content">Достижения</label>
+                                    <div class="achievements-block" id="achievements-block" data-last="{{ $data['dog']->achievments->count() }}">
+                                        @if($data['dog']->achievments->count())
+                                            @foreach($data['dog']->achievments as $index => $achievment)
+                                                <div class="col-12 achievements-item" id="achievements-item-{{ $achievment->id }}">
+                                                    <div class="info-box">
+                                                        <span class="info-box-icon bg-warning"><i class="fa fa-trophy"></i></span>
+                                                        <div class="info-box-content">
+                                                            <span class="info-box-text">{{ $achievment->name }}</span>
+                                                            <span class="info-box-number">{{ $achievment->format_date }}</span>
+                                                            <input class="achievements-id" type="hidden" name="achievements[{{ $index }}][id]" value="{{ $achievment->id }}">
+                                                            <input class="achievements-date" type="hidden" name="achievements[{{ $index }}][date]" value="{{ $achievment->date_receiving }}">
+                                                            <input class="achievements-name" type="hidden" name="achievements[{{ $index }}][name]" value="{{ $achievment->name }}">
+                                                        </div>
                                                     </div>
+                                                    <button type="button" onclick="deleteAchievements(event.currentTarget)" class="btn achievement-delete-button">
+                                                        <i class="fas fa-trash-alt">
+                                                        </i>
+                                                    </button>
                                                 </div>
-                                                <button type="button" onclick="deleteAchievements(event.currentTarget)" class="btn achievement-delete-button">
-                                                    <i class="fas fa-trash-alt">
-                                                    </i>
-                                                </button>
-                                            </div>
-                                        @endforeach
-                                    @endif
+                                            @endforeach
+                                        @endif
+                                    </div>
+                                    <button type="button" data-toggle="modal" data-target="#modal-achievements" class="btn bg-gradient-success">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
                                 </div>
-                                <button type="button" data-toggle="modal" data-target="#modal-achievements" class="btn bg-gradient-success">
-                                    <i class="fas fa-plus"></i>
-                                </button>
                             </div>
                         </div>
                     </div>
@@ -171,6 +237,7 @@
         @include('admin.entities.dogs.add.achievements')
         @include('admin.include.filemanager')
         @include('admin.include.achievements')
+        @include('admin.common.gallary.add.item')
     </section>
     <!-- /.content -->
 @endsection

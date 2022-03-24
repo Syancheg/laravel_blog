@@ -92,7 +92,7 @@ class GallaryController extends AdminController
             $images = $validated['images'];
             unset($validated['images']);
         }
-        Gallary::find($id)->update();
+        Gallary::find($id)->update($validated);
 
         $oldImages = GallaryFile::where(['image_gallary_id' => $id])->get('file_id')->toArray();
         $oldImages = array_map(function($item) {

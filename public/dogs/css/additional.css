@@ -1,0 +1,12 @@
+.image {
+    object-fit: contain;
+}
+
+.post-image {
+    max-height: 400px;
+}
+.top-post-image {
+    width: 90px;
+    height: 90px;
+}
+

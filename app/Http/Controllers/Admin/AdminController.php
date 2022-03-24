@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Helpers\AdminLeftMenu;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Gallary;
+use App\Models\GallaryFile;
 use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -46,6 +48,16 @@ class AdminController extends Controller
 
     public function getAllUsers() {
         $this->data['users'] = User::all();
+    }
+
+    public function getAllGallaries() {
+        $this->data['gallaries'] = Gallary::all();
+    }
+
+    public function convertDate($string) {
+        $date = explode('-', $string);
+        $date = array_reverse($date);
+        return implode('.', $date);
     }
 
 

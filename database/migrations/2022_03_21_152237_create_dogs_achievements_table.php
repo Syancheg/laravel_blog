@@ -23,7 +23,7 @@ class CreateDogsAchievementsTable extends Migration
             $table->index('dog_id', 'dog_achievements_dog_idx');
 
             // foreign key
-            $table->foreign('dog_id', 'dog_achievements_dog_fk')->on('dogs')->references('id');
+            $table->foreign('dog_id', 'dog_achievements_dog_fk')->on('dogs')->references('id')->onDelete('cascade');
 
             $table->timestamps();
         });

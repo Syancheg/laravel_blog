@@ -13,6 +13,7 @@ class Category extends Model
 
     protected $table = 'categories';
     protected $guarded = false;
+    protected $appends = ['count_posts'];
 
     public function imagePath() {
         return $this->belongsTo(File::class, 'image', 'id');
@@ -29,6 +30,10 @@ class Category extends Model
 
     public function posts() {
         return $this->hasMany(Post::class);
+    }
+
+    public function getCountPostsAttribute() {
+        return Post::where(['category_id' => $this->id, 'active' => 1])->get()->count();
     }
 
 }

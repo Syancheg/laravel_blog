@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\Entity\Dog\StoreRequest;
 use App\Models\Dog;
 use App\Models\DogAchievements;
 use App\Models\DogDog;
+use App\Models\EntityGallary;
 
 class StoreController extends AdminController
 {
@@ -20,6 +21,7 @@ class StoreController extends AdminController
         $this->saveFather();
         $this->saveMother();
         $this->saveAchievements();
+        $this->saveGallaries();
         return redirect()->route('admin.entity.dog.index');
     }
 
@@ -63,6 +65,19 @@ class StoreController extends AdminController
                     'dog_id' => $this->dog->id
                 ];
                 DogAchievements::firstOrCreate($data);
+            }
+        }
+    }
+
+    private function saveGallaries() {
+        if(isset($this->validated['gallaries'])) {
+            foreach ($this->validated['gallaries'] as $gallary) {
+                $data = [
+                    'entity_id' => $this->dog->id,
+                    'gallary_id' => $gallary,
+                    'type' => config('constants.dogs_type')
+                ];
+                EntityGallary::firstOrCreate($data);
             }
         }
     }

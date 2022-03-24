@@ -5,7 +5,7 @@
 <section class="content">
     <div class="container-fluid">
         <div>
-            <a href="{{ route('admin.entity.dog.index') }}" class="btn btn-default">назад</a>
+            <a href="{{ url()->previous() }}" class="btn btn-default">назад</a>
         </div>
         <form action="{{ route('admin.entity.dog.store') }}" method="post">
             @csrf
@@ -102,29 +102,57 @@
                         </div>
                     </div>
                     <div class="col-6">
-                        <div class="form-group">
-                            <label for="dog_main_image">Фото</label>
-                            <div class="post-main-image" id="dog_main_image" data-count="1">
-                                <div class="hover-image-block" data-type="dog_main_image" data-id="0">
-                                    @if(old('image'))
-                                        <img src="{{ Storage::url(old('image_src')) }}">
-                                    @else
-                                        <img src="{{ Storage::url('public/noimg.png') }}">
-                                    @endif
-                                    <input type="hidden" id="main_image" name="image" class="main_image-input" value="{{ old('image') }}">
+                        <div class="col-12 row">
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="dog_main_image">Фото</label>
+                                    <div class="post-main-image" id="dog_main_image" data-count="1">
+                                        <div class="hover-image-block" data-type="dog_main_image" data-id="0">
+                                            @if(old('image'))
+                                                <img src="{{ Storage::url(old('image_src')) }}">
+                                            @else
+                                                <img src="{{ Storage::url('public/noimg.png') }}">
+                                            @endif
+                                            <input type="hidden" id="main_image" name="image" class="main_image-input" value="{{ old('image') }}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-8">
+                                <div class="form-group">
+                                    <label for="gallaries-select">Галереи</label>
+                                    <select onchange="changeGallary(this.value)" class="custom-select rounded-5" id="gallaries-select">
+                                        <option value=""></option>
+                                        @foreach($data['gallaries'] as $gallary)
+                                            <option
+                                                value="{{ $gallary->id }}"
+                                                data-count="{{ $gallary->images->count() }}"
+                                                @if($gallary->image)
+                                                data-image="{{ $gallary->mainImage->path_origin }}"
+                                                @else
+                                                data-image="public/noimg.png"
+                                                @endif
+                                            >
+                                                {{ $gallary->name }} - {{ $gallary->images->count() }} фото, {{ $gallary->format_date }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <div id="gallary-block" class="gallary-block" data-count="0">
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="input-content">Достижения</label>
-                            <div class="achievements-block" id="achievements-block" data-last="0">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="input-content">Достижения</label>
+                                <div class="achievements-block" id="achievements-block" data-last="0">
 
+                                </div>
+                                <button type="button" data-toggle="modal" data-target="#modal-achievements" class="btn bg-gradient-success">
+                                    <i class="fas fa-plus"></i>
+                                </button>
                             </div>
-                            <button type="button" data-toggle="modal" data-target="#modal-achievements" class="btn bg-gradient-success">
-                                <i class="fas fa-plus"></i>
-                            </button>
                         </div>
-                    </div>
                 </div>
             </div>
             <!-- /.card-body -->
@@ -137,6 +165,7 @@
     @include('admin.entities.dogs.add.achievements')
     @include('admin.include.filemanager')
     @include('admin.include.achievements')
+    @include('admin.common.gallary.add.item')
 </section>
 <!-- /.content -->
 @endsection

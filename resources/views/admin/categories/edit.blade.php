@@ -5,7 +5,7 @@
 <section class="content">
     <div class="container-fluid">
         <div>
-            <a href="{{ route('admin.category.index') }}" class="btn btn-default">назад</a>
+            <a href="{{ url()->previous() }}" class="btn btn-default">назад</a>
         </div>
         <form action="{{ route('admin.category.update', $data['category']->id) }}" method="post">
             @csrf

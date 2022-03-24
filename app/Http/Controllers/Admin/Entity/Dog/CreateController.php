@@ -27,6 +27,7 @@ class CreateController extends AdminController
                 $session->put('_old_input', $oldInput);
             }
         }
+        $this->getAllGallaries();
         $this->getDogsFemale();
         $this->getDogsMale();
         $data = $this->data;

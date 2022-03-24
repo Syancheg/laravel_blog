@@ -5,7 +5,7 @@
     <section class="content">
         <div class="container-fluid">
             <div>
-                <a href="{{ route('admin.gallary.index') }}" class="btn btn-default">назад</a>
+                <a href="{{ url()->previous() }}" class="btn btn-default">назад</a>
             </div>
             <form action="{{ route('admin.gallary.store') }}" method="post" enctype="multipart/form-data">
                 @csrf

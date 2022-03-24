@@ -5,7 +5,7 @@
 <section class="content">
     <div class="container-fluid">
         <div>
-            <a href="#" class="btn btn-default">назад</a>
+            <a href="{{ url()->previous() }}" class="btn btn-default">назад</a>
         </div>
         @foreach($errors as $error)
             {{ $error }}

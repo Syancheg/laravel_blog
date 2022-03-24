@@ -27,7 +27,7 @@ class EditController extends AdminController
     }
 
     private function getSeo($postId) {
-        $this->data['seo'] = SeoDescription::where(['type' => config('constants.seo_post_type'), 'item_id' => $postId])->first();
+        $this->data['seo'] = SeoDescription::where(['type' => config('constants.post_type'), 'item_id' => $postId])->first();
     }
 
     private function getParseTags() {

@@ -36,9 +36,11 @@ class UpdateController extends AdminController
 
     private function savePost() {
 
-//        dd($this->validatedData['tags']);
-        if(isset($this->validatedData['tags'])){
+        if(!is_null($this->validatedData['tags'])){
             $this->saveTags();
+        } else {
+            $this->deleteAllPostTags();
+            unset($this->validatedData['tags']);
         }
         $this->bodyParse = SeoHelper::parseSeoFromBody($this->validatedData);
         $this->post->update($this->bodyParse['body']);
@@ -46,7 +48,7 @@ class UpdateController extends AdminController
     }
 
     private function saveSeo() {
-        $this->bodyParse['seo']['type'] = config('constants.seo_post_type');
+        $this->bodyParse['seo']['type'] = config('constants.post_type');
         $this->bodyParse['seo']['item_id'] = $this->post->id;
         SeoHelper::saveSeo($this->bodyParse['seo']);
     }
@@ -79,5 +81,9 @@ class UpdateController extends AdminController
         foreach ($this->deletePostTags as $PostTag) {
             PostTag::where(['post_id' => $this->post->id, 'tag_id' => $PostTag])->delete();
         }
+    }
+
+    private function deleteAllPostTags() {
+        PostTag::where(['post_id' => $this->post->id])->delete();
     }
 }

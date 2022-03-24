@@ -2,6 +2,7 @@
 .image {
     width: 100%;
     height: 100%;
+    object-fit: contain;
 }
 .required:after{
     content: '*';
@@ -243,6 +244,42 @@
     position: absolute;
     top: 25px;
     right: 15px
+}
+
+.gallary-add-block {
+    margin-top: 10px;
+    display: flex;
+    height: 70px;
+    gap: 10px;
+}
+
+.gallary-item {
+    position: relative;
+    width: 80px;
+}
+
+.gallary-item-count {
+    position: absolute;
+    bottom: -5px;
+    left: -5px;
+    font-size: 20px;
+    border-radius: 5px;
+    padding: 0 5px;
+}
+.btn-delete-gallary {
+    display: none;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: .8;
+}
+
+.gallary-item:hover .btn-delete-gallary {
+    display: flex;
 }
 
 

@@ -79,7 +79,7 @@ function deleteImage(type, id) {
     if(block.length > 0){
         $(block[0]).attr('data-id', 0);
         $(block[0]).find('img').attr('src', image);
-        $(block[0]).find('input').val(0);
+        $(block[0]).find('input').val('');
     }
 }
 
@@ -713,6 +713,35 @@ function addAchievements() {
     modal.find(':input').val('');
     modal.find('.text-danger').remove();
     modal.modal('hide');
+}
+
+function deleteGallary(id) {
+    $(`#gallary-${id}`).remove();
+    $(`#gallaries-select option[value="${id}"]`).attr('disabled', false);
+}
+
+function changeGallary(id){
+    if (id === '') return;
+    let option = $(`#gallaries-select option[value="${id}"]`)
+    let count = option.attr('data-count');
+    let imageSrc = option.attr('data-image');
+    if (imageSrc) {
+        imageSrc = imageSrc.replace('public', '/storage');
+    }
+    let index = parseInt($('#gallary-block').attr('data-count'));
+
+    let template = document.getElementById('gallary-item');
+    let clone = template.content.cloneNode(true);
+    clone.querySelectorAll('.gallary-item')[0].id = `gallary-${id}`;
+    clone.querySelectorAll('.image')[0].src = imageSrc;
+    clone.querySelectorAll('.gallary-item-count')[0].innerText = count;
+    clone.querySelectorAll('input')[0].value = id;
+    clone.querySelectorAll('input')[0].name = `gallaries[${index}]`;
+    clone.querySelectorAll('.btn-delete-gallary')[0].setAttribute('onclick', `deleteGallary(${id})`);
+    document.getElementById('gallary-block').appendChild(clone);
+    $(`#gallaries-select option[value="${id}"]`).attr('disabled', true);
+    index++;
+    $('#gallary-block').attr('data-count', index)
 }
 
 

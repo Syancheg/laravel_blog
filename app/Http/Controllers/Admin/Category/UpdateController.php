@@ -63,7 +63,7 @@ class UpdateController extends AdminController
     }
 
     private function saveSeo() {
-        $this->bodyParse['seo']['type'] = config('constants.seo_category_type');
+        $this->bodyParse['seo']['type'] = config('constants.category_type');
         $this->bodyParse['seo']['item_id'] = $this->category->id;
         SeoHelper::saveSeo($this->bodyParse['seo']);
     }

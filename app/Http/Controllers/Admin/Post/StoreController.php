@@ -51,7 +51,7 @@ class StoreController extends AdminController
     }
 
     private function saveSeo() {
-        $this->bodyParse['seo']['type'] = config('constants.seo_post_type');
+        $this->bodyParse['seo']['type'] = config('constants.post_type');
         $this->bodyParse['seo']['item_id'] = $this->post->id;
         SeoHelper::saveSeo($this->bodyParse['seo']);
     }

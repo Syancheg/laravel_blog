@@ -5,7 +5,7 @@
     <section class="content">
         <div class="container-fluid">
             <div>
-                <a href="{{ route('admin.gallary.index') }}" class="btn btn-default">назад</a>
+                <a href="{{ url()->previous() }}" class="btn btn-default">назад</a>
             </div>
             @foreach($errors as $error)
                 {{ $error }}
@@ -26,14 +26,31 @@
                     <div class="form-group">
                         <label for="gallary-main-image">Главное изображение</label>
                         <div class="post-main-image" id="gallary-main-image" data-count="1" data-type="image">
-                            <div class="hover-image-block" data-type="gallary-main-image" data-id="0">
+                            <div
+                                class="hover-image-block"
+                                data-type="gallary-main-image"
+                                @if($data['gallary']->image)
+                                data-id="{{ $data['gallary']->image }}"
+                                @else
+                                data-id="0"
+                                @endif
+                            >
                                 @if($data['gallary']->image)
                                     <img src="{{ Storage::url($data['gallary']->mainImage->path_origin) }}">
-                                    <input type="hidden" id="main_image" name="image" class="main_image-input" value="{{ $data['gallary']->image }}">
                                 @else
                                     <img src="{{ Storage::url('public/noimg.png') }}">
-                                    <input type="hidden" id="main_image" name="image" class="main_image-input" value="0">
                                 @endif
+                                    <input
+                                        type="hidden"
+                                        id="main_image"
+                                        name="image"
+                                        class="main_image-input"
+                                        @if($data['gallary']->image)
+                                        value="{{ $data['gallary']->image }}"
+                                        @else
+                                        value="0"
+                                        @endif
+                                    >
                             </div>
                         </div>
                     </div>
