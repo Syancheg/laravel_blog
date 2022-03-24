@@ -9,4 +9,8 @@
     width: 90px;
     height: 90px;
 }
+.post-additional-block {
+    max-height: 70px;
+    max-width: 70px;
+}
 

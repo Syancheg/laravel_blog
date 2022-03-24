@@ -5,7 +5,6 @@
             <li>
                 <a href="{{ route('public.content.category', [$category->slug]) }}" class="d-flex">
                     <p>{{ $category->title }}</p>
-                    <p>{{ $category->count_posts }}</p>
                 </a>
             </li>
         @endforeach

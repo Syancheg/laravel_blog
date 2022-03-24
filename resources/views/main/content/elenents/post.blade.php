@@ -24,8 +24,8 @@
             <p>That dominion stars lights dominion divide years for fourth have don't stars is that
                 he earth it first without heaven in place seed it second morning saying.</p>
             <ul class="blog-info-link">
-                <li><a href="#"><i class="fa fa-user"></i> {{ $post->created_at }}</a></li>
-                <li><a href="#"><i class="fa fa-comments"></i> 03 Comments</a></li>
+                <li><a href="#"><i class="fa fa-calendar"></i> {{ $post->format_date }}</a></li>
+                <li><a href="#"><i class="fa fa-eye"></i> {{ $post->views }}</a></li>
             </ul>
         </div>
     </article>

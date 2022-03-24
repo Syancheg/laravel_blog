@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\DateHelper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,13 +15,7 @@ class DogAchievements extends Model
     protected $appends = ['format_date'];
 
     public function getFormatDateAttribute() {
-        $date = $this->date_receiving;
-        if(!is_null($date)) {
-            $date = explode('-', $date);
-            $date = array_reverse($date);
-            $date = implode('.', $date);
-        }
-        return $date;
+        return DateHelper::formatDateToDate($this->date_receiving);
     }
 }
 

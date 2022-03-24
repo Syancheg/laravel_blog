@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\DateHelper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -28,14 +29,7 @@ class Gallary extends Model
     }
 
     public function getFormatDateAttribute() {
-        $date = $this->updated_at;
-        if(!is_null($date)) {
-            $date = substr($date, 0, strpos($date, ' '));
-            $date = explode('-', $date);
-            $date = array_reverse($date);
-            $date = implode('.', $date);
-        }
-        return $date;
+        return DateHelper::formatDateTimeToDate($this->created_at);
     }
 
     public function getImagesSrcAttribute() {
