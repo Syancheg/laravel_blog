@@ -36,7 +36,9 @@ class PostController extends MainController
         $this->data['tags'] = $this->post->post_tags;
         $this->data['post'] = $this->post;
         $data = $this->data;
-//        dd($data['post']);
+        $this->addViewPost();
+//        $this->post->update(['views' => $this->post->views++]);
+//        dd($this->post->views + 1);
         return view('main.content.post', compact('data'));
     }
 
@@ -91,5 +93,9 @@ class PostController extends MainController
             ]
         ];
         $this->data['breadcrumbs'] = $breadcrumbs;
+    }
+
+    private function addViewPost() {
+        Post::find($this->post->id)->update(['views' => $this->post->views + 1]);
     }
 }

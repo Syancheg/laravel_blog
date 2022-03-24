@@ -11,7 +11,7 @@
                 <a href="{{ route('public.content.post', [$post->category->slug, $post->slug]) }}">
                     <h3>{{ $post->title }}</h3>
                 </a>
-                <p>{{ $post->created_at }}</p>
+                <p>{{ $post->format_date }}</p>
             </div>
         </div>
     @endforeach

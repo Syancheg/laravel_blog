@@ -17,7 +17,8 @@ class Post extends Model
     protected $guarded = false;
     protected $appends = [
         'format_date',
-        'post_tags'
+        'format_date_label',
+        'post_tags',
         ];
 
     public function category()
@@ -37,6 +38,10 @@ class Post extends Model
 
     public function getFormatDateAttribute() {
         return DateHelper::formatDateTimeToDate($this->created_at);
+    }
+
+    public function getFormatDateLabelAttribute() {
+        return DateHelper::formatDateToPoblicPost($this->created_at);
     }
 
     public function getPostTagsAttribute() {

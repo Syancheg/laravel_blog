@@ -20,8 +20,10 @@ Route::group(['namespace' => 'Main'], function(){
     });
     Route::group(['namespace' => 'Content'], function() {
         Route::get('/blog', 'BlogController')->name('public.content.blog');
+        Route::get('/blog/tag/{tag:id}', 'BlogController@getPostForTag')->name('public.content.tag');
         Route::get('/blog/{category:slug}', 'BlogController')->name('public.content.category');
         Route::get('/blog/{category:slug}/{post:slug}', 'PostController')->name('public.content.post');
+
         Route::get('/all-dogs', 'DogsController')->name('public.content.dogs');
         Route::get('/all-dogs/{dog:slug}', 'DogController')->name('public.content.dog');
     });

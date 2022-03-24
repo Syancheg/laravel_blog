@@ -8,17 +8,37 @@ use App\Models\Category;
 use App\Models\File;
 use App\Models\Gallary;
 use App\Models\Post;
+use App\Models\PostTag;
 use App\Models\Tag;
+use Illuminate\Database\Eloquent\Collection;
 
 class BlogWidgetHelper
 {
 
     public function getCategories() {
-        return Category::where(['active' => 1])->get();
+        $categories = Category::where(['active' => 1])->get();
+        $collection = new Collection();
+        if($categories->count() > 0) {
+            foreach ($categories as $category) {
+                if($category->postsActive->count() > 0) {
+                    $collection->push($category);
+                }
+            }
+        }
+        return $collection;
     }
 
     public function getTags() {
-        return Tag::all();
+        $tags = Tag::all();
+        $collection = new Collection();
+        if($tags->count() > 0) {
+            foreach ($tags as $tag) {
+                if($tag->has_posts) {
+                    $collection->push($tag);
+                }
+            }
+        }
+        return $collection;
     }
 
     public function getTopPosts($categoryId = 0) {
@@ -28,8 +48,12 @@ class BlogWidgetHelper
                 ->orderBy('views', 'DESC')
                 ->take(4)
                 ->get()
-            : Post::where(['active' => 1])
-                ->orderBy('views', 'DESC')
+            : Post::join('categories', function($join) {
+                $join
+                    ->on('posts.category_id', '=', 'categories.id');
+                })
+                ->where(['posts.active' => 1, 'categories.active' => 1])
+                ->orderBy('posts.views', 'DESC')
                 ->take(4)
                 ->get();
         if($posts->count() > 0) {
@@ -51,9 +75,35 @@ class BlogWidgetHelper
             ? Post::where(['active' => 1, 'category_id' => $categoryId])
                 ->orderBy('created_at', 'DESC')
                 ->paginate(config('constants.blog_total_posts'))
-            : Post::where(['active' => 1])
-                ->orderBy('created_at', 'DESC')
+            : Post::join('categories', function($join) {
+                $join
+                    ->on('posts.category_id', '=', 'categories.id');
+                })
+                ->where(['posts.active' => 1, 'categories.active' => 1])
+                ->orderBy('posts.created_at', 'DESC')
                 ->paginate(config('constants.blog_total_posts'));
+        if($posts->count() > 0) {
+            $posts = $this->setupCachePostImage($posts, 'post_main');
+        }
+        return $posts;
+    }
+
+    public function getPostForTag($tag) {
+        $postsId = PostTag::where(['tag_id' => $tag])->get()->toArray();
+        if($postsId){
+            $postsId = array_map(function($item) {
+                return $item['post_id'];
+            }, $postsId);
+        } else {
+            $postsId = [0];
+        }
+        $posts = Post::join('categories', function($join) {
+            $join
+                ->on('posts.category_id', '=', 'categories.id');
+            })
+            ->whereIn('posts.id', $postsId)
+            ->where(['posts.active' => 1, 'categories.active' => 1])
+            ->paginate(config('constants.blog_total_posts'));
         if($posts->count() > 0) {
             $posts = $this->setupCachePostImage($posts, 'post_main');
         }

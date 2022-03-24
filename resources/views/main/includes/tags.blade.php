@@ -3,7 +3,7 @@
     <ul class="list">
         @foreach($tags as $tag)
             <li>
-                <a href="#">{{ $tag->title }}</a>
+                <a href="{{ route('public.content.tag', [$tag->id]) }}">{{ $tag->title }}</a>
             </li>
         @endforeach
     </ul>

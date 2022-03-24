@@ -32,6 +32,10 @@ class Category extends Model
         return $this->hasMany(Post::class);
     }
 
+    public function postsActive() {
+        return $this->hasMany(Post::class)->where('active', 1);
+    }
+
     public function getCountPostsAttribute() {
         return Post::where(['category_id' => $this->id, 'active' => 1])->get()->count();
     }

@@ -8,8 +8,8 @@
                 alt="{{ $post->title }}"
             >
             <a href="#" class="blog_item_date">
-                <h3>15</h3>
-                <p>Jan</p>
+                <h3>{{ $post->format_date_label['day'] }}</h3>
+                <p>{{ $post->format_date_label['month'] }}</p>
             </a>
         </div>
 
@@ -26,4 +26,4 @@
         </div>
     </article>
 @endforeach
-@include('main.includes.pagination')
+{{ $posts->links('main.includes.pagination') }}

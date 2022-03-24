@@ -13,4 +13,11 @@ class PostTag extends Model
         'post_id',
         'tag_id',
     ];
+//    protected $appends = ['post'];
+//
+//    public function getPostAttribute() {
+//        return Post::where(['id' => $this->post_id, 'active' => 1])->first();
+//    }
+
+
 }
