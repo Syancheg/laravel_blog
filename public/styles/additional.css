@@ -282,5 +282,16 @@
     display: flex;
 }
 
+.sorted-column {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.sorted-column a.active {
+    color: #30ac4d;
+}
+
 
 

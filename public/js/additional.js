@@ -744,5 +744,21 @@ function changeGallary(id){
     $('#gallary-block').attr('data-count', index)
 }
 
+$("#filter").submit(function (e) {
+    // e.preventDefault();
+    let send = false;
+    $(this).find(':input').each((index, item) => {
+        if($(item).val() === '') {
+            $(item).attr("disabled", "disabled")
+        } else {
+            send = true;
+        }
+    })
+
+    return true;
+
+    // console.log($(this).find(':input')[1].val());
+});
+
 
 
