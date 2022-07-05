@@ -1,3 +1,9 @@
+
+.image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
 .required:after{
     content: '*';
     color: red;
@@ -8,3 +14,284 @@
     display: flex;
     gap: 10px;
 }
+.post-main-image {
+    margin-bottom: 15px;
+    vertical-align: bottom;
+    width: 150px;
+    height: 150px;
+}
+.post-list-image {
+    vertical-align: bottom;
+    width: 70px;
+    height: 70px;
+}
+
+.post-main-image img, .post-list-image img, .user-main-image img {
+    border-radius: 5px;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.tags-block {
+    padding: 10px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.tag-item {
+    padding: 5px 10px;
+    border-radius: 5px
+}
+
+.tag-btn {
+    padding: 0;
+    border: none;
+    font: inherit;
+    color: inherit;
+    transition: opacity .3s ease-in;
+}
+.tag-btn.btn-left{
+    border-radius: 5px 0 0 5px;
+}
+.tag-btn.btn-right {
+    border-radius: 0 5px 5px 0;
+}
+.main-tags-page-item {
+    position: relative;
+    padding: 5px 10px;
+    border-radius: 5px
+}
+.tag-item__edit-block{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    opacity: .8;
+    justify-content: space-evenly;
+}
+.main-tags-page-item:hover .tag-item__edit-block {
+    display: flex;
+}
+
+.tag-item__edit-block button {
+    flex-grow: 1;
+}
+
+.modal-header-control {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+.filemanager-modal-body {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.error-filemanager {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.error-filemanager > div {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.modal-header-btn-block {
+    padding: 5px;
+    display: flex;
+    gap: 10px;
+}
+.filemanager-modal-item {
+    position: relative;
+    border-radius: 5px;
+    width: 150px;
+    transition: all .3s ease;
+}
+.filemanager-image-block {
+    width: 100%;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.filemanager-modal-item:hover {
+    background: #eee;
+}
+
+.filemanager-image-block i {
+    font-size: 90px;
+}
+.filemanager-image-block img {
+    border-radius: 5px;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.filemanager-download {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    transition: all .3s ease;
+}
+.filemanager-download:hover {
+    background: #ccc;
+}
+.filemanager-download i {
+    font-size: 90px;
+}
+.filemanager-modal-body {
+    min-height: 150px;
+}
+.dir-add-button {
+    position: absolute;
+    opacity: 0;
+    right: -5px;
+    transition: all .3s ease;
+}
+.filemanager-modal-item:hover .dir-add-button {
+    opacity: 1;
+}
+.filemanager-input-file label  {
+    margin: 0;
+}
+.filemanager-dir-input {
+    position: absolute;
+    width: 400px;
+    top: 20px;
+}
+#filemanager-modal-file-input {
+    display: none;
+}
+
+.dir-add-button i {
+    font-size: 25px;
+    color: #30ab4c;
+}
+
+.hover-image-block {
+    position: relative;
+}
+
+#image-change {
+    display: flex;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transition: all .3s ease;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    top: 0;
+    background: rgba(255,255,255,.3);
+}
+
+.user-main-image {
+    vertical-align: bottom;
+    width: 80px;
+    height: 80px;
+}
+
+.user-image-cell {
+    display: flex;
+    justify-content: center;
+}
+
+.gallary-images-block {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+.gallary-images-block .gallary {
+    vertical-align: bottom;
+    width: 150px;
+    height: 150px;
+}
+.gallary-add-button {
+    width: 150px;
+    height: 150px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+/*.gallary-add-button button {*/
+/*    width: 50px;*/
+/*    height: 50px;*/
+/*    font-size: 25px;*/
+/*}*/
+.gallary-block .image {
+    border-radius: 5px;
+}
+
+.achievements-item {
+    position: relative;
+}
+.achievement-delete-button {
+    position: absolute;
+    top: 25px;
+    right: 15px
+}
+
+.gallary-add-block {
+    margin-top: 10px;
+    display: flex;
+    height: 70px;
+    gap: 10px;
+}
+
+.gallary-item {
+    position: relative;
+    width: 80px;
+}
+
+.gallary-item-count {
+    position: absolute;
+    bottom: -5px;
+    left: -5px;
+    font-size: 20px;
+    border-radius: 5px;
+    padding: 0 5px;
+}
+.btn-delete-gallary {
+    display: none;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: .8;
+}
+
+.gallary-item:hover .btn-delete-gallary {
+    display: flex;
+}
+
+.sorted-column {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.sorted-column a.active {
+    color: #30ac4d;
+}
+
+
+

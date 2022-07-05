@@ -2,13 +2,19 @@
 
 namespace App\Http\Controllers\Admin\Main;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Admin\AdminController;
 
-class IndexController extends Controller
+class IndexController extends AdminController
 {
+
+    public function __construct()
+    {
+        $this->setupData();
+    }
+
     public function __invoke()
     {
-        return view('admin.main.index');
+        $data = $this->data;
+        return view('admin.main.index', compact('data'));
     }
 }

@@ -1,0 +1,25 @@
+.image {
+    object-fit: contain;
+}
+
+.post-image {
+    max-height: 400px;
+}
+.top-post-image {
+    width: 90px;
+    height: 90px;
+}
+.post-additional-block {
+    max-height: 70px;
+    max-width: 70px;
+}
+
+.feature-img {
+    display: flex;
+    justify-content: center;
+}
+.bradcam_text, .bradcam_text a {
+    color: white;
+}
+
+
