@@ -93,6 +93,7 @@ Route::group(['namespace' => 'Admin', 'middleware'=> 'auth', 'prefix' => 'admin'
             Route::get('/{category}/edit', 'EditController')->name('admin.category.edit');
             Route::patch('/{category}', 'UpdateController')->name('admin.category.update');
             Route::delete('/{category}', 'DeleteController')->name('admin.category.delete');
+            Route::get('/api/categories/{category:id}', 'EditController@activateCategories')->name('public.api.activate.categories');
         });
         Route::group(['namespace' => 'Tag', 'prefix' => 'tag'], function(){
             Route::get('/', 'IndexController')->name('admin.tag.index');

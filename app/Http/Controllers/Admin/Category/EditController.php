@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Models\Category;
 use App\Models\SeoDescription;
 use App\Models\Tag;
+use Illuminate\Http\Request;
 
 class EditController extends AdminController
 {
@@ -49,6 +50,12 @@ class EditController extends AdminController
             }
         }
         $this->data['category']->tags = $StringTags;
+    }
+
+    public function activateCategories(Request $request, $id) {
+        $category = Category::find($id);
+        $category->active = $request->input('status') === 'true' ? 1 : 0;
+        return $category->save();
     }
 
 }

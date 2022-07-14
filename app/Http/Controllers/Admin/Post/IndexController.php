@@ -20,19 +20,15 @@ class IndexController extends AdminController
     public function __invoke(Request $request)
     {
         $this->request = $request;
-//        dd($request);
-//        dd($request->has('page'));
         $this->getAllCategories();
         $this->getFilterImageList();
         $this->getFilterActiveList();
         $this->getPosts();
-//        dd($this->data);
         $data = $this->data;
         return view('admin.posts.index', compact('data'));
     }
 
     private function getPosts() {
-//        dd($request->start);
         $allowed = ['id', 'title', 'active', 'views', 'category_id'];
         $sort = in_array($this->request->sort, $allowed) ? $this->request->sort : 'id';
         $order = $this->request->order === 'asc' ? 'asc' : 'desc';
@@ -139,11 +135,5 @@ class IndexController extends AdminController
             'Отключено',
             'Включено',
         ];
-    }
-
-    public function toogleActive($id) {
-        $post = Post::find($id);
-        $post->active = !$post->active;
-        $post->save();
     }
 }

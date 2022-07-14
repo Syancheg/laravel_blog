@@ -21,6 +21,7 @@
                             <th style="width: 5%">ID</th>
                             <th style="width: 60%">Наименование</th>
                             <th style="width: 5%">Кол-во постов</th>
+                            <th style="width: 5%">Активность</th>
                             <th style="width: 15%">Действие</th>
                         </tr>
                         </thead>
@@ -30,6 +31,12 @@
                                 <td>{{ $category->id }}</td>
                                 <td>{{ $category->title }}</td>
                                 <td><span class="badge bg-danger">{{ count($category->posts) }}</span></td>
+                                <td class="text-center">
+                                    <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                                        <input onchange="activate('{{ route('public.api.activate.categories', $category->id) }}', this)" type="checkbox" @if($category->active) checked @endif name="switch-active-{{ $category->id }}" class="custom-control-input" id="active-switch-{{ $category->id }}">
+                                        <label class="custom-control-label" for="active-switch-{{ $category->id }}"></label>
+                                    </div>
+                                </td>
                                 <td>
                                     <div class="action-button-block">
                                         <a href="{{ route('admin.category.show', $category->id) }}" class="btn bg-gradient-success"><i class="fas fa-eye"></i></a>
