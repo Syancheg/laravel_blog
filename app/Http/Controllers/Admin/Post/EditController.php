@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Models\Post;
 use App\Models\SeoDescription;
 use App\Models\Tag;
+use Illuminate\Http\Request;
 
 class EditController extends AdminController
 {
@@ -51,5 +52,11 @@ class EditController extends AdminController
             }
         }
         $this->data['post']->tags = $StringTags;
+    }
+
+    public function activatePosts(Request $request, $id) {
+        $post = Post::find($id);
+        $post->active = $request->input('status') === 'true' ? 1 : 0;
+        return $post->save();
     }
 }

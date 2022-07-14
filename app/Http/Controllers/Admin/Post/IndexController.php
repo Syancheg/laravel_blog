@@ -15,7 +15,6 @@ class IndexController extends AdminController
     public function __construct()
     {
         $this->setupData();
-        $this->data['tootle_active_url'] = route('admin.post.tootle-active');
     }
 
     public function __invoke(Request $request)

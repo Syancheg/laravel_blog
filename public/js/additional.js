@@ -499,10 +499,10 @@ function bytesToSize(bytes) {
     return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
 }
 
-function tootlePostActive(id) {
-    let url = $('#active-ajax-url') .val() + '/' + id;
-    getRequest(url);
-}
+// function tootlePostActive(id) {
+//     let url = $('#active-ajax-url') .val() + '/' + id;
+//     getRequest(url);
+// }
 function modalRenameTag() {
     let modal = $('#modal-tag-rename');
     let id = modal.find('[name="id"]').val();
@@ -760,7 +760,7 @@ $("#filter").submit(function (e) {
     // console.log($(this).find(':input')[1].val());
 });
 
-function activateDogs(route, target) {
+function activate(route, target) {
     getRequest(`${route}?status=${$(target).is(':checked')}`).then((result) => {
         if(!result) alert('Не удалось сохранить статус');
     }).catch((error) => {

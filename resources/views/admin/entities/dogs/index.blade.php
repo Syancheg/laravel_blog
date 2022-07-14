@@ -49,7 +49,7 @@
                                         <td class="text-center">{{ $dog->birthday }}</td>
                                         <td class="text-center">
                                             <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                                                <input onchange="activateDogs('{{ route('public.api.activate.dogs', $dog->id) }}', this)" type="checkbox" @if($dog->active) checked @endif name="switch-active-{{ $dog->id }}" class="custom-control-input" id="active-switch-{{ $dog->id }}">
+                                                <input onchange="activate('{{ route('public.api.activate.dogs', $dog->id) }}', this)" type="checkbox" @if($dog->active) checked @endif name="switch-active-{{ $dog->id }}" class="custom-control-input" id="active-switch-{{ $dog->id }}">
                                                 <label class="custom-control-label" for="active-switch-{{ $dog->id }}"></label>
                                             </div>
                                         </td>

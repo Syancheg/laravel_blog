@@ -112,9 +112,7 @@ Route::group(['namespace' => 'Admin', 'middleware'=> 'auth', 'prefix' => 'admin'
             Route::get('/{post}/edit', 'EditController')->name('admin.post.edit');
             Route::patch('/{post}', 'UpdateController')->name('admin.post.update');
             Route::delete('/{post}', 'DeleteController')->name('admin.post.delete');
-            Route::get('/ajax/toggle-active/{post?}', 'IndexController@toogleActive')
-                ->where('post', '\d')
-                ->name('admin.post.tootle-active');
+            Route::get('/api/posts/{post:id}', 'EditController@activatePosts')->name('public.api.activate.posts');
         });
         Route::group(['namespace' => 'Banner', 'prefix' => 'banner'], function(){
             Route::get('/', 'IndexController')->name('admin.banner.index');

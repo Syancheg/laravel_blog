@@ -79,7 +79,6 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <input type="hidden" value="{{ $data['tootle_active_url'] }}" id="active-ajax-url">
                     <table class="table table-bordered">
                         <thead>
                         <tr>
@@ -136,7 +135,7 @@
                                 <td>{{ $post->category->title }}</td>
                                 <td class="text-center">
                                     <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                                        <input onchange="tootlePostActive({{ $post->id }})" type="checkbox" @if($post->active) checked @endif name="switch-active-{{ $post->id }}" class="custom-control-input" id="active-switch-{{ $post->id }}">
+                                        <input onchange="activate('{{ route('public.api.activate.posts', $post->id) }}', this)" type="checkbox" @if($post->active) checked @endif name="switch-active-{{ $post->id }}" class="custom-control-input" id="active-switch-{{ $post->id }}">
                                         <label class="custom-control-label" for="active-switch-{{ $post->id }}"></label>
                                     </div>
                                 </td>
