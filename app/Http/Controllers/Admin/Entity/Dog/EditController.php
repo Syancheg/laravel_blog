@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Entity\Dog;
 use App\Http\Controllers\Admin\AdminController;
 use App\Models\Dog;
 use Illuminate\Http\Request;
+use Ramsey\Uuid\Type\Integer;
 
 class EditController extends AdminController
 {
@@ -37,6 +38,10 @@ class EditController extends AdminController
             ->where('id', '!=', $this->data['dog']->id)
             ->get();
         $this->getDogsMale();
+    }
+
+    public function activateDogs($id) {
+        return $id;
     }
 
 

@@ -760,5 +760,11 @@ $("#filter").submit(function (e) {
     // console.log($(this).find(':input')[1].val());
 });
 
+function activateDogs() {
+    console.log('yes');
+}
+
+
+
 
 

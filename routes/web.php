@@ -26,6 +26,8 @@ Route::group(['namespace' => 'Main'], function(){
 
         Route::get('/all-dogs', 'DogsController')->name('public.content.dogs');
         Route::get('/all-dogs/{dog:slug}', 'DogController')->name('public.content.dog');
+
+        Route::get('/api/dogs/{dog:id}', 'DogController@activateDogs')->name('public.api.activate.dogs');
     });
 
 //    Route::get('/categories', 'CategoryController')->name('top-menu.categories');
