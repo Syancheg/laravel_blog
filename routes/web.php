@@ -26,8 +26,6 @@ Route::group(['namespace' => 'Main'], function(){
 
         Route::get('/all-dogs', 'DogsController')->name('public.content.dogs');
         Route::get('/all-dogs/{dog:slug}', 'DogController')->name('public.content.dog');
-
-        Route::get('/api/dogs/{dog:id}', 'DogController@activateDogs')->name('public.api.activate.dogs');
     });
 
 //    Route::get('/categories', 'CategoryController')->name('top-menu.categories');
@@ -74,6 +72,7 @@ Route::group(['namespace' => 'Admin', 'middleware'=> 'auth', 'prefix' => 'admin'
             Route::get('/{dog}/edit', 'EditController')->name('admin.entity.dog.edit');
             Route::patch('/{dog}', 'UpdateController')->name('admin.entity.dog.update');
             Route::delete('/{dog}', 'DeleteController')->name('admin.entity.dog.delete');
+            Route::get('/api/dogs/{dog:id}', 'EditController@activateDogs')->name('public.api.activate.dogs');
         });
     });
     Route::group(['prefix' => 'content'], function (){

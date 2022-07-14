@@ -40,8 +40,10 @@ class EditController extends AdminController
         $this->getDogsMale();
     }
 
-    public function activateDogs($id) {
-        return $id;
+    public function activateDogs(Request $request, $id) {
+        $dog = Dog::find($id);
+        $dog->active = $request->input('status') === 'true' ? 1 : 0;
+        return $dog->save();
     }
 
 

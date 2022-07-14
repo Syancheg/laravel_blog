@@ -760,8 +760,12 @@ $("#filter").submit(function (e) {
     // console.log($(this).find(':input')[1].val());
 });
 
-function activateDogs() {
-    console.log('yes');
+function activateDogs(route, target) {
+    getRequest(`${route}?status=${$(target).is(':checked')}`).then((result) => {
+        if(!result) alert('Не удалось сохранить статус');
+    }).catch((error) => {
+        alert(error);
+    });
 }
 
 
